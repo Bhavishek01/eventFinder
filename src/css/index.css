@@ -18,6 +18,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
 }
 
 body {
@@ -33,7 +34,7 @@ body {
     padding: 0 20px;
 }
 
-/* ============= NAVBAR ============= */
+/*   NAVBAR   */
 .navbar {
     background: var(--white);
     box-shadow: var(--shadow);
@@ -56,23 +57,6 @@ body {
     color: var(--primary-color);
     font-size: 24px;
     font-weight: 700;
-}
-
-.nav-menu {
-    display: flex;
-    gap: 30px;
-}
-
-.nav-link {
-    color: var(--text-dark);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--primary-color);
 }
 
 .nav-buttons {
@@ -164,7 +148,7 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
-/* ============= header SECTION ============= */
+/*   header SECTION   */
 .header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--white);
@@ -195,7 +179,7 @@ body {
     flex-wrap: wrap;
 }
 
-/* ============= upcoming EVENTS SECTION ============= */
+/*   upcoming EVENTS SECTION   */
 .upcoming-events {
     padding: 80px 20px;
 }
@@ -262,7 +246,7 @@ body {
     margin: 15px;
 }
 
-/* ============= CTA SECTION ============= */
+/*   CTA SECTION   */
 .cta {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--white);
@@ -282,7 +266,7 @@ body {
     opacity: 0.9;
 }
 
-/* ============= FOOTER ============= */
+/*   FOOTER   */
 .footer {
     background: var(--text-dark);
     color: var(--white);
@@ -332,7 +316,7 @@ body {
     color: #999;
 }
 
-/* ============= RESPONSIVE ============= */
+/*   RESPONSIVE   */
 @media (max-width: 768px) {
     .nav-menu {
         display: none;
