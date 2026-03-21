@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Sign Up</title>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-S..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="login-container">
@@ -28,13 +29,20 @@
             </div>
 
             <div class="form-group">
+            <div class="form-group password-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Create a password" required>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Create a password" required>
+                    <i class="fa-solid fa-eye-slash toggle-password" id="toggleSignupPassword"></i>
+                </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group password-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                <div class="password-wrapper">
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                    <i class="fa-solid fa-eye-slash toggle-password" id="toggleConfirmPassword"></i>
+                </div>
             </div>
 
             <button type="submit" class="btn">Sign Up</button>
@@ -44,40 +52,5 @@
             Already have an account? <a href="login.html">Sign in</a>
         </p>
     </div>
-</body>
-</html>
-            </button>
-
-            <p class="signup-link">
-                Already have an account? <a href="login.html">Sign In Here</a>
-            </p>
-        </div>
-
-        <!-- Illustration Side (on larger screens) -->
-        <div class="login-illustration">
-            <div class="illustration-content">
-                <h2>Get Started Today</h2>
-                <p>Join thousands of people who are discovering and attending amazing events in their community.</p>
-                <ul class="features-list">
-                    <li>✓ Create a free account</li>
-                    <li>✓ Browse all events</li>
-                    <li>✓ One-click registration</li>
-                    <li>✓ Get event reminders</li>
-                    <li>✓ Connect with others</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for error/success messages -->
-    <div id="messageModal" class="modal">
-        <div class="modal-content modal-message">
-            <span class="close" onclick="closeMessageModal()">&times;</span>
-            <p id="messageText"></p>
-            <button class="btn btn-primary" onclick="closeMessageModal()">OK</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

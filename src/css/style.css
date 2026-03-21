@@ -127,3 +127,37 @@ body {
         font-size: 24px;
     }
 }
+
+/* Password field with toggle icon */
+.password-group {
+    position: relative;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 45px;          /* Make space for the icon on the right */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    user-select: none;            /* Prevent text selection when clicking */
+}
+
+.toggle-password:hover {
+    color: #667eea;
+}
+
+/* Optional: make input look good when focused with icon */
+.password-wrapper input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+}

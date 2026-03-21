@@ -1,0 +1,6 @@
+now create a js file for login and signup which validates passwords and email
+email should have name,digit[bit,bca][digit][@]kcc.edu.np like bhavishek3bit23@kcc.edu.np
+password should have 8 digit minimum one symbol,capital letter and digit
+
+but in signup if the email dosnt have the name,digit[bit,bca][digit][@]kcc.edu.np like bhavishek3bit23@kcc.edu.np when the user press sign up it opens up a new html which tells signup with college account or wait for admin approval 
+if the user press signup with college it goes back to the singup else goes back to hmepage(not made for now)
