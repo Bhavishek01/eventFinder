@@ -10,8 +10,10 @@
     --accent-color: #f093fb;
     --text-dark: #333;
     --text-light: #666;
-    --bg-light: #f9f9f9;
+    --bg-light: #fefbf7;
     --white: #ffffff;
+    --beige: #f5f1ed;
+    --light-beige: #ede8e2;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
 }

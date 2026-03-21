@@ -4,9 +4,21 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-light: #fefbf7;
+    --white: #ffffff;
+    --beige: #f9e7d6;
+    --bg: #E5E5E0;
+    --gray: #DEDDD8;
+    --light-beige: #ede8e2;
+    --green: #184430;
+    --green-light: #1844307e;
+    --black: #000000;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--beige), var(--bg-light) 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -24,14 +36,14 @@ body {
 
 .login-container h1 {
     text-align: center;
-    color: #333;
+    color: var(--black);
     margin-bottom: 10px;
     font-size: 28px;
 }
 
 .login-container p {
     text-align: center;
-    color: #666;
+    color: var(--black);
     margin-bottom: 30px;
     font-size: 14px;
 }
@@ -43,7 +55,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #333;
+    color: var(--black);
     font-weight: 600;
     font-size: 14px;
 }
@@ -61,7 +73,7 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--green-light);
     box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
 }
 
@@ -85,7 +97,7 @@ body {
 .btn {
     width: 100%;
     padding: 12px;
-    background: #667eea;
+    background: var(--green-light);
     color: white;
     border: none;
     border-radius: 5px;
@@ -96,14 +108,14 @@ body {
 }
 
 .btn:hover {
-    background: #5568d3;
+    background: var(--green);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .signup-link {
     text-align: center;
     margin-top: 20px;
-    color: #666;
+    color: var(--green);
     font-size: 14px;
 }
 
@@ -140,7 +152,7 @@ body {
 
 .password-wrapper input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--green-light);
     box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
 }
 
@@ -155,7 +167,7 @@ body {
 }
 
 .toggle-password:hover {
-    color: #667eea;
+    color: var(--green-light);
 }
 
 @media (max-width: 480px) {
