@@ -1,0 +1,106 @@
+-- Users table (students + event admins)
+CREATE TABLE users (
+    user_id     INT AUTO_INCREMENT PRIMARY KEY,
+    uname       VARCHAR(50)      NOT NULL UNIQUE,
+    email       VARCHAR(100)     NOT NULL UNIQUE,
+    password    VARCHAR(255)     NOT NULL,          -- hashed
+    role        ENUM('student', 'admin') DEFAULT 'student',
+    address     VARCHAR(255)     DEFAULT NULL,
+    phone       VARCHAR(20)      DEFAULT NULL,
+    created_at  DATETIME         DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+-- Global Admin (completely separate – only one or very few records)
+CREATE TABLE global_admin (
+    admin_id    INT AUTO_INCREMENT PRIMARY KEY,
+    email       VARCHAR(100)     NOT NULL UNIQUE,
+    password    VARCHAR(255)     NOT NULL,          -- hashed – highest privilege
+    created_at  DATETIME         DEFAULT CURRENT_TIMESTAMP
+    -- You can add last_login, etc. later if needed
+);
+
+
+-- Events table (created by admin users)
+CREATE TABLE events (
+    event_id              INT AUTO_INCREMENT PRIMARY KEY,
+    ename                 VARCHAR(150)     NOT NULL,
+    short_description     TEXT             NOT NULL,
+    long_description      TEXT             NULL,
+    status                ENUM('upcoming', 'ongoing', 'completed', 'cancelled') 
+                                       DEFAULT 'upcoming',
+    date                  DATE             NOT NULL,
+    time                  TIME             NOT NULL,
+    venue                 VARCHAR(150)     NOT NULL,
+    volunteers_needed     INT              DEFAULT 0,          -- ← new column
+    created_by            INT              NOT NULL,           -- references users who is admin
+    created_at            DATETIME         DEFAULT CURRENT_TIMESTAMP,
+    updated_at            DATETIME         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE RESTRICT
+);
+
+
+-- Participants / Registrations (students only)
+CREATE TABLE participants (
+    participant_id   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id          INT         NOT NULL,                    -- must be student
+    event_id         INT         NOT NULL,
+    role             ENUM('participator', 'volunteer') NOT NULL,  -- ← new column
+    registered_at    DATETIME    DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE KEY unique_participation (user_id, event_id),
+    FOREIGN KEY (user_id)  REFERENCES users(user_id)  ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
+);
+
+
+-- Lost & Found Items
+CREATE TABLE items (
+    item_id       INT AUTO_INCREMENT PRIMARY KEY,
+    event_id      INT              NULL,               -- optional link to event
+    user_id       INT              NOT NULL,           -- student who reported
+    iname         VARCHAR(150)     NOT NULL,
+    description   TEXT             NOT NULL,
+    location      VARCHAR(150)     NOT NULL,
+    photo         VARCHAR(255)     DEFAULT NULL,       -- file path
+    status        ENUM('lost', 'found', 'returned') DEFAULT 'lost',  -- ← restricted options
+    date_reported DATE             NOT NULL,
+    created_at    DATETIME         DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id)  REFERENCES users(user_id)  ON DELETE CASCADE
+);
+
+
+-- Feedback
+CREATE TABLE feedback (
+    feedback_id   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id       INT      NOT NULL,
+    event_id      INT      NOT NULL,
+    rating        TINYINT  NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment       TEXT     NULL,
+    admin_reply   TEXT     NULL,
+    replied_at    DATETIME NULL,
+    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)  REFERENCES users(user_id)  ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
+);
+
+
+-- Complaints
+CREATE TABLE complaints (
+    complaint_id   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id        INT      NOT NULL,
+    event_id       INT      NULL,
+    comment        TEXT     NOT NULL,
+    admin_reply    TEXT     NULL,
+    replied_at     DATETIME NULL,
+    status         ENUM('open', 'in_progress', 'resolved', 'rejected') DEFAULT 'open',
+    created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)  REFERENCES users(user_id)  ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE SET NULL
+);
