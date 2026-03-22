@@ -145,14 +145,14 @@ body {
 }
 
 .btn-primary:hover,
-.btn-secondary:hover,
-.btn-cta:hover {
+.btn-secondary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(24, 68, 48, 0.25);
 }
 
 .upcoming-events, .popular-events {
     padding: 20px 0 72px;
+    background: var(--light-beige);
 }
 
 .upcoming-events h2,
@@ -169,11 +169,16 @@ body {
 }
 
 .event-card {
-    background: var(--light-bg);
+    background: var(--white);
     border: 1px solid rgba(24, 68, 48, 0.14);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.event-card:hover{
+    background: var(--light-bg);
+    box-shadow: 0 6px 14px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
 }
 
 .event-category {
@@ -212,6 +217,7 @@ body {
 }
 
 .btn-outline:hover {
+    transform: translateY(-2px);
     background: rgba(24, 68, 48, 0.08);
 }
 
@@ -276,7 +282,6 @@ body.dark-mode {
 }
 
 body.dark-mode .navbar,
-body.dark-mode .cta .container,
 body.dark-mode .event-card {
     background: rgba(74, 66, 58, 0.86);
     border-color: rgba(245, 241, 237, 0.18);
@@ -285,7 +290,7 @@ body.dark-mode .event-card {
 body.dark-mode .logo h2,
 body.dark-mode .header h1,
 body.dark-mode .upcoming-events h2,
-body.dark-mode .cta h2,
+body.dark-mode .popular-events h2,
 body.dark-mode .event-card h3 {
     color: #f5f1ed;
 }
@@ -308,12 +313,17 @@ body.dark-mode .btn.login,
 body.dark-mode .btn.signup,
 body.dark-mode .btn.theme-toggle-btn,
 body.dark-mode .btn-primary,
-body.dark-mode .btn-secondary,
-body.dark-mode .btn-cta {
-    background: #667eea;
+body.dark-mode .btn-secondary{
+    background: var(--light-beige)
 }
 
+body.dark-mode .btn.login:hover,
+body.dark-mode .btn.signup:hover,
+body.dark-mode .btn.theme-toggle-btn:hover,
+body.dark-mode .btn-primary:hover,
+body.dark-mode .btn-secondary:hover,
 body.dark-mode .btn:hover {
     box-shadow: 0 6px 14px rgba(102, 126, 234, 0.4);
+    background: var(--beige);
 }
 
