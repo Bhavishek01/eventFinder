@@ -565,3 +565,49 @@ body.dark-mode .dropdown-menu a:hover {
     background: rgba(245, 241, 237, 0.12);
 }
 
+/* Admin action cards styling */
+.admin-action-card {
+    background: linear-gradient(135deg, rgba(24, 68, 48, 0.05) 0%, rgba(248, 200, 148, 0.08) 100%);
+    border-left: 4px solid var(--dark-green);
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-action-card h3 {
+    color: var(--dark-green);
+    font-size: 1.1rem;
+}
+
+.btn-action {
+    background: var(--green-light);
+    color: var(--white);
+    width: 100%;
+    margin-top: auto;
+    padding: 12px 16px;
+}
+
+.btn-action:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(24, 68, 48, 0.25);
+}
+
+body.dark-mode .admin-action-card {
+    background: linear-gradient(135deg, rgba(245, 241, 237, 0.08) 0%, rgba(248, 200, 148, 0.05) 100%);
+    border-left-color: var(--light-beige);
+}
+
+body.dark-mode .admin-action-card h3 {
+    color: var(--light-beige);
+}
+
+body.dark-mode .btn-action {
+    background: var(--light-beige);
+    color: var(--dark-green);
+}
+
+body.dark-mode .btn-action:hover {
+    background: var(--beige);
+    box-shadow: 0 6px 14px rgba(248, 200, 148, 0.3);
+}
+

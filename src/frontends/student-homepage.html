@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFinder - Student Dashboard</title>
+    <link rel="stylesheet" href="../css/homepage.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>KCC eventFinder</h2>
+            </div>
+            <div class="nav-buttons">
+                <div class="profile-dropdown">
+                    <button class="btn btn-profile" onclick="toggleProfileMenu()">👤</button>
+                    <div id="profileMenu" class="dropdown-menu">
+                        <a href="#" onclick="goToProfile()">
+                            <span>👤</span> Profile
+                        </a>
+                        <a href="#" onclick="toggleAppearance()">
+                            <span>🎨</span> Appearance
+                        </a>
+                        <div id="themeOptions" class="theme-options" style="display: none;">
+                            <a href="#" onclick="setTheme('light')">☀️ Light</a>
+                            <a href="#" onclick="setTheme('dark')">🌙 Dark</a>
+                        </div>
+                        <hr>
+                        <a href="#" onclick="logout()">
+                            <span>🚪</span> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- header Section -->
+    <section class="header">
+        <div class="header-content">
+            <h1>eventFinder</h1>
+            <p>Student Dashboard</p>
+        </div>
+    </section>
+
+    <!-- Home and Dashboard Switch -->
+    <section class="view-switcher-section">
+        <div class="container">
+            <div class="view-switcher" role="tablist" aria-label="Main sections">
+                <button id="homeTabBtn" class="btn view-tab active" type="button" role="tab" aria-controls="homeSection" aria-selected="true" onclick="switchMainSection('home')">Homepage</button>
+                <button id="dashboardTabBtn" class="btn view-tab" type="button" role="tab" aria-controls="dashboardSection" aria-selected="false" onclick="switchMainSection('dashboard')">Dashboard</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Home Section -->
+    <section class="events-section content-section active" id="homeSection" role="tabpanel">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+
+            <div class="home-subsection">
+                <h2 class="section-title">Recent Events</h2>
+                <div class="events-grid" id="recentEventsGrid">
+                    <!-- Recent events will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section content-section" id="dashboardSection" role="tabpanel" aria-hidden="true">
+        <div class="container">
+            <h2 class="section-title">Student Dashboard</h2>
+            <div class="dashboard-grid">
+                <article class="dashboard-card">
+                    <h3>Events Participated</h3>
+                    <p class="dashboard-value">04</p>
+                    <p>Total events you have attended so far.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Items Reported</h3>
+                    <p class="dashboard-value">02</p>
+                    <p>Lost and found reports submitted by you.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Complaints</h3>
+                    <p class="dashboard-value">01 Open</p>
+                    <p>Status of issue reports submitted for events.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Feedback</h3>
+                    <p class="dashboard-value">03 Given</p>
+                    <p>Number of event feedback entries shared by you.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>My Registrations</h3>
+                    <p class="dashboard-value">05 Active</p>
+                    <p>Current event registrations waiting for participation.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Profile Status</h3>
+                    <p class="dashboard-value">80% Complete</p>
+                    <p>Complete your profile to improve recommendations.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Event Details Modal -->
+    <div id="eventDetailsModal" class="modal modal-large">
+        <div class="modal-content modal-content-large">
+            <span class="close" onclick="closeEventDetailsModal()">&times;</span>
+            <div id="eventDetailsContent">
+                <!-- Event details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/homepage.js"></script>
+</body>
+</html>

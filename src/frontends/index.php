@@ -1,0 +1,168 @@
+<?php
+
+include '../database/db_con.php';
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFinder - Discover Events</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>eventFinder</h2>
+            </div>
+            <div class="nav-buttons">
+                <a href="login.html" class="btn login">Login</a>
+                <a href="signup.html" class="btn signup">Sign Up</a>
+                <button class="btn theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle theme">Dark Mode</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- header Section -->
+    <section class="header">
+        <div class="header-content">
+            <h1>Discover College Events</h1>
+            <p>Find and attend the best events happening in your college</p>
+            <div class="header-buttons">
+                <a href="#footer" class="btn btn-primary">Explore Events</a>
+                <a href="#footer" class="btn btn-primary">About us</a>
+                <a href="#footer" class="btn btn-primary">Contact</a>
+                <a href="signup.html" class="btn btn-secondary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- upcoming Events Section -->
+    <section class="upcoming-events">
+        <div class="container">
+            <h2>Upcoming Events </h2>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-category">Technology</div>
+                    <h3>Annual Tech Conference 2026</h3>
+                    <p class="event-date"> April 15, 2026</p>
+                    <p class="event-desc">Join industry leaders for a day of inspiring talks and networking opportunities.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="event-card">
+                    <div class="event-category">Music</div>
+                    <h3>Spring Music Festival</h3>
+                    <p class="event-date"> May 10, 2026</p>
+                    <p class="event-desc">Experience live performances from local and international artists.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="event-card">
+                    <div class="event-category">Sports</div>
+                    <h3>Community Sports Day</h3>
+                    <p class="event-date"> March 28, 2026</p>
+                    <p class="event-desc">Participate in various sports activities with community members.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Events Section -->
+    <section class="popular-events">
+        <div class="container">
+            <h2>Popular Events </h2>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-category">Technology</div>
+                    <h3>Annual Tech Conference 2026</h3>
+                    <p class="event-date"> April 15, 2026</p>
+                    <p class="event-desc">Join industry leaders for a day of inspiring talks and networking opportunities.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="event-card">
+                    <div class="event-category">Music</div>
+                    <h3>Spring Music Festival</h3>
+                    <p class="event-date"> May 10, 2026</p>
+                    <p class="event-desc">Experience live performances from local and international artists.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+                <div class="event-card">
+                    <div class="event-category">Sports</div>
+                    <h3>Community Sports Day</h3>
+                    <p class="event-date"> March 28, 2026</p>
+                    <p class="event-desc">Participate in various sports activities with community members.</p>
+                    <a href="login.html" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>EventFinder</h4>
+                    <p>A platform to discover and join events organized by our college department and clubs.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventFinder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Theme toggle logic
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+    function setTheme(mode) {
+        if (mode === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggleBtn.textContent = 'Light Mode';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeToggleBtn.textContent = 'Dark Mode';
+            localStorage.setItem('theme', 'light');
+        }
+    }
+    // On load, set theme from localStorage
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        setTheme(savedTheme === 'dark' ? 'dark' : 'light');
+    })();
+    themeToggleBtn.addEventListener('click', function() {
+        const isDark = document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'light' : 'dark');
+    });
+    </script>
+</body>
+</html>

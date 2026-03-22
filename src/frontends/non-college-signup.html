@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Account Required - EventFinder</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .alert-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .alert-box {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .alert-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .alert-box h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .alert-box p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .alert-requirements {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .alert-requirements h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .alert-requirements ul {
+            list-style: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .alert-requirements li {
+            margin-bottom: 8px;
+        }
+
+        .alert-requirements li:before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .button-group .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-college {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-college:hover {
+            background: #5568d3;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-later {
+            background: #f9f9f9;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-later:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 480px) {
+            .alert-box {
+                padding: 30px 20px;
+            }
+
+            .alert-box h1 {
+                font-size: 22px;
+            }
+
+            .alert-box p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alert-container">
+        <div class="alert-box">
+            <div class="alert-icon">📚</div>
+            <h1>College Account Required</h1>
+            <p>
+                To ensure community integrity, EventFinder requires a valid college email address for signup.
+            </p>
+
+            <div class="alert-requirements">
+                <h3>Required Email Format:</h3>
+                <ul>
+                    <li>name[digit][bit/bca][digit]@kcc.edu.np</li>
+                    <li>Example: bhavishek3bit23@kcc.edu.np</li>
+                </ul>
+            </div>
+
+            <p>
+                <strong>Choose an option below:</strong>
+            </p>
+
+            <div class="button-group">
+                <button class="btn btn-college" onclick="goToSignup()">
+                    ✓ Signup with College Account
+                </button>
+                <button class="btn btn-later" onclick="goToHome()">
+                    Go Back to Homepage
+                </button>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 12px; color: #999;">
+                Don't have a college email? Contact admin for manual approval.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function goToSignup() {
+            window.location.href = 'signup.html';
+        }
+
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

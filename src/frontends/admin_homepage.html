@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventFinder - Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/homepage.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>KCC eventFinder - Admin</h2>
+            </div>
+            <div class="nav-buttons">
+                <div class="profile-dropdown">
+                    <button class="btn btn-profile" onclick="toggleProfileMenu()">👤</button>
+                    <div id="profileMenu" class="dropdown-menu">
+                        <a href="#" onclick="goToProfile()">
+                            <span>👤</span> Profile
+                        </a>
+                        <a href="#" onclick="toggleAppearance()">
+                            <span>🎨</span> Appearance
+                        </a>
+                        <div id="themeOptions" class="theme-options" style="display: none;">
+                            <a href="#" onclick="setTheme('light')">☀️ Light</a>
+                            <a href="#" onclick="setTheme('dark')">🌙 Dark</a>
+                        </div>
+                        <hr>
+                        <a href="#" onclick="logout()">
+                            <span>🚪</span> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- header Section -->
+    <section class="header">
+        <div class="header-content">
+            <h1>eventFinder</h1>
+            <p>Admin Control Panel</p>
+            <p>by Alisha Bhavishek Riya</p>
+        </div>
+    </section>
+
+    <!-- Home and Dashboard Switch -->
+    <section class="view-switcher-section">
+        <div class="container">
+            <div class="view-switcher" role="tablist" aria-label="Main sections">
+                <button id="homeTabBtn" class="btn view-tab active" type="button" role="tab" aria-controls="homeSection" aria-selected="true" onclick="switchMainSection('home')">Home</button>
+                <button id="dashboardTabBtn" class="btn view-tab" type="button" role="tab" aria-controls="dashboardSection" aria-selected="false" onclick="switchMainSection('dashboard')">Dashboard</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Home Section - Admin Dashboard -->
+    <section class="events-section content-section active" id="dashboardSection" role="tabpanel" hidden="true">
+        <div class="container">
+            <h2 class="section-title">Admin Dashboard</h2>
+            <div class="dashboard-grid">
+                <article class="dashboard-card admin-action-card">
+                    <h3>➕ Create Events</h3>
+                    <p class="dashboard-value">New</p>
+                    <p>Create and publish new events for the college.</p>
+                    <button class="btn btn-action" onclick="createNewEvent()">Create Event</button>
+                </article>
+                <article class="dashboard-card admin-action-card">
+                    <h3>✏️ Edit Events</h3>
+                    <p class="dashboard-value">Active</p>
+                    <p>Modify and manage existing events.</p>
+                    <button class="btn btn-action" onclick="manageEvents()">Manage Events</button>
+                </article>
+                <article class="dashboard-card">
+                    <h3>📍 Items Reported</h3>
+                    <p class="dashboard-value">12</p>
+                    <p>Lost and found items reported by students.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>📋 Complaints</h3>
+                    <p class="dashboard-value">05 Pending</p>
+                    <p>Student complaints and issues to review.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>⭐ Feedback</h3>
+                    <p class="dashboard-value">34 Received</p>
+                    <p>Event feedback and ratings from students.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>🔔 Issue Notice</h3>
+                    <p class="dashboard-value">03 Active</p>
+                    <p>Important notices and announcements.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Total Events</h3>
+                    <p class="dashboard-value">28</p>
+                    <p>Total events created this semester.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Active Users</h3>
+                    <p class="dashboard-value">487</p>
+                    <p>Students actively using the platform.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Edit Users</h3>
+                    <p class="dashboard-value">487</p>
+                    <p>Students actively using the platform.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Event Request</h3>
+                    <p class="dashboard-value">487</p>
+                    <p>Students actively using the platform.</p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="dashboard-section content-section" id="homeSection" role="tabpanel" aria-hidden="false">
+        <div class="container">
+            <h2 class="section-title">Reports and Analytics</h2>
+            <div class="dashboard-grid">
+                <article class="dashboard-card">
+                    <h3>Total Events</h3>
+                    <p class="dashboard-value">28</p>
+                    <p>Total events created this semester.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Total Registrations</h3>
+                    <p class="dashboard-value">1,250</p>
+                    <p>Student registrations across all events.</p>
+                </article>
+                
+                <article class="dashboard-card">
+                    <h3>Attendance Rate</h3>
+                    <p class="dashboard-value">78%</p>
+                    <p>Average attendance rate for events.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>System Health</h3>
+                    <p class="dashboard-value">✅ Good</p>
+                    <p>All systems operating normally.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Support Tickets</h3>
+                    <p class="dashboard-value">02 Open</p>
+                    <p>Outstanding support requests.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details Modal -->
+    <div id="eventDetailsModal" class="modal modal-large">
+        <div class="modal-content modal-content-large">
+            <span class="close" onclick="closeEventDetailsModal()">&times;</span>
+            <div id="eventDetailsContent">
+                <!-- Event details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/homepage.js"></script>
+    <script>
+        // Admin-specific functions
+        function createNewEvent() {
+            alert('Create Event feature - To be implemented');
+            // window.location.href = 'create-event.html';
+        }
+
+        function manageEvents() {
+            alert('Manage Events feature - To be implemented');
+            // window.location.href = 'manage-events.html';
+        }
+    </script>
+</body>
+</html>
