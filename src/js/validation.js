@@ -53,33 +53,22 @@ function getPasswordErrors(password) {
 
 
 function handleLoginSubmit(event) {
-    event.preventDefault();
-    
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    const eglobal1 = "admin1global1@kcc.edu.np";
-    const eglobal2 = "admin1@gmail.com";
-    const pglobal = "globalAdmin123!";
-
     if (!email) {
+        event.preventDefault();
         alert("Please enter your email");
         return false;
     }
 
     if (!password) {
+        event.preventDefault();
         alert("Please enter your password");
         return false;
     }
 
-    if ((email === eglobal1 || email === eglobal2) && password === pglobal) {
-        window.location.href = 'admin-dashboard.html';
-        return false;
-    }
-
-    alert("Invalid credentials");
-    console.log("Login attempt with:", { email, password });
-    return false;
+    return true;
 
 }
 
@@ -87,8 +76,6 @@ function handleLoginSubmit(event) {
  * Handle Signup Form Submission
  */
 function handleSignupSubmit(event) {
-    event.preventDefault();
-    
     const fullname = document.getElementById('fullname').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
@@ -96,33 +83,39 @@ function handleSignupSubmit(event) {
     
     // Validate all fields
     if (!fullname) {
+        event.preventDefault();
         alert("Please enter your full name");
         return false;
     }
     
     if (!email) {
+        event.preventDefault();
         alert("Please enter your email");
         return false;
     }
     
     if (!password) {
+        event.preventDefault();
         alert("Please enter a password");
         return false;
     }
     
     if (!confirmPassword) {
+        event.preventDefault();
         alert("Please confirm your password");
         return false;
     }
     
     // Check if passwords match
     if (password !== confirmPassword) {
+        event.preventDefault();
         alert("Passwords do not match");
         return false;
     }
     
     // Validate password requirements
     if (!isValidPassword(password)) {
+        event.preventDefault();
         const errors = getPasswordErrors(password);
         alert("Password requirements not met:\n" + errors.join("\n"));
         return false;
@@ -130,14 +123,12 @@ function handleSignupSubmit(event) {
     
     // Check if email is college format
     if (!isValidCollegeEmail(email)) {
+        event.preventDefault();
         window.location.href = 'non-college-signup.html';
         return false;
     }
-    
-    // If all validation passes, submit form (in real app, send to server)
-    alert("Signup validation passed! (Form submission would go to server)");
-    console.log("Signup form submitted with:", { fullname, email, password });
-    return false;
+
+    return true;
 
 }
 
