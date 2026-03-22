@@ -62,14 +62,10 @@ const eventsData = [
     }
 ];
 
-// Initialize events on page load
-document.addEventListener('DOMContentLoaded', function() {
-    loadEvents();
-});
-
 // Load and display events
 function loadEvents() {
     const eventsGrid = document.getElementById('eventsGrid');
+    if (!eventsGrid) return;
     eventsGrid.innerHTML = '';
 
     eventsData.forEach(event => {
@@ -89,6 +85,62 @@ function loadEvents() {
         `;
         eventsGrid.innerHTML += eventCard;
     });
+}
+
+// Load and display recent events in home section
+function loadRecentEvents() {
+    const recentEventsGrid = document.getElementById('recentEventsGrid');
+    if (!recentEventsGrid) return;
+    recentEventsGrid.innerHTML = '';
+
+    const recentEvents = eventsData.slice(-3).reverse();
+    recentEvents.forEach(event => {
+        const eventCard = `
+            <div class="event-card">
+                <div class="event-card-header">
+                    <h3>${event.title}</h3>
+                    <span class="event-card-date">${event.date}</span>
+                </div>
+                <div class="event-card-body">
+                    <p>${event.description}</p>
+                </div>
+                <div class="event-card-footer">
+                    <button class="btn btn-more" onclick="viewEventDetails(${event.id})">View Details</button>
+                </div>
+            </div>
+        `;
+        recentEventsGrid.innerHTML += eventCard;
+    });
+}
+
+// Switch between homepage and dashboard sections
+function switchMainSection(sectionName) {
+    const homeSection = document.getElementById('homeSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    const homeTabBtn = document.getElementById('homeTabBtn');
+    const dashboardTabBtn = document.getElementById('dashboardTabBtn');
+
+    if (!homeSection || !dashboardSection || !homeTabBtn || !dashboardTabBtn) return;
+
+    if (sectionName === 'dashboard') {
+        homeSection.classList.remove('active');
+        dashboardSection.classList.add('active');
+        homeTabBtn.classList.remove('active');
+        dashboardTabBtn.classList.add('active');
+        homeTabBtn.setAttribute('aria-selected', 'false');
+        dashboardTabBtn.setAttribute('aria-selected', 'true');
+        homeSection.setAttribute('aria-hidden', 'true');
+        dashboardSection.setAttribute('aria-hidden', 'false');
+    } else {
+        dashboardSection.classList.remove('active');
+        homeSection.classList.add('active');
+        dashboardTabBtn.classList.remove('active');
+        homeTabBtn.classList.add('active');
+        dashboardTabBtn.setAttribute('aria-selected', 'false');
+        homeTabBtn.setAttribute('aria-selected', 'true');
+        dashboardSection.setAttribute('aria-hidden', 'true');
+        homeSection.setAttribute('aria-hidden', 'false');
+    }
 }
 
 // Navigate to login page
@@ -309,7 +361,10 @@ function logout() {
     }
 }
 
-// Initialize theme on page load
+// Initialize page on load
 document.addEventListener('DOMContentLoaded', function() {
     loadTheme();
+    loadEvents();
+    loadRecentEvents();
+    switchMainSection('home');
 });

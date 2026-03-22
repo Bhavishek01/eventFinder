@@ -37,58 +37,65 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
+    <!-- header Section -->
+    <section class="header">
+        <div class="header-content">
             <h1>eventFinder</h1>
             <p>BY alisha bhavishek riya</p>
         </div>
     </section>
 
-    <!-- Events Container -->
-    <section class="events-section">
+    <!-- Home and Dashboard Switch -->
+    <section class="view-switcher-section">
+        <div class="container">
+            <div class="view-switcher" role="tablist" aria-label="Main sections">
+                <button id="homeTabBtn" class="btn view-tab active" type="button" role="tab" aria-controls="homeSection" aria-selected="true" onclick="switchMainSection('home')">Homepage</button>
+                <button id="dashboardTabBtn" class="btn view-tab" type="button" role="tab" aria-controls="dashboardSection" aria-selected="false" onclick="switchMainSection('dashboard')">Dashboard</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Home Section -->
+    <section class="events-section content-section active" id="homeSection" role="tabpanel">
         <div class="container">
             <h2 class="section-title">Upcoming Events</h2>
             <div class="events-grid" id="eventsGrid">
                 <!-- Events will be populated by JavaScript -->
             </div>
+
+            <div class="home-subsection">
+                <h2 class="section-title">Recent Events</h2>
+                <div class="events-grid" id="recentEventsGrid">
+                    <!-- Recent events will be populated by JavaScript -->
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeLogin()">&times;</span>
-            <h2>Sign In</h2>
-            <form id="loginForm">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" class="btn btn-primary">Sign In</button>
-            </form>
-            <p class="form-toggle">Don't have an account? <a href="#" onclick="switchToSignup()">Sign Up</a></p>
+    <!-- Dashboard Section -->
+    <section class="dashboard-section content-section" id="dashboardSection" role="tabpanel" aria-hidden="true">
+        <div class="container">
+            <h2 class="section-title">Dashboard Overview</h2>
+            <div class="dashboard-grid">
+                <article class="dashboard-card">
+                    <h3>My Registrations</h3>
+                    <p class="dashboard-value">3 Active</p>
+                    <p>Track your current event registrations and upcoming schedules in one place.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Saved Events</h3>
+                    <p class="dashboard-value">5 Saved</p>
+                    <p>Keep a shortlist of events you are interested in and revisit them quickly.</p>
+                </article>
+                <article class="dashboard-card">
+                    <h3>Profile Status</h3>
+                    <p class="dashboard-value">80% Complete</p>
+                    <p>Complete your profile to get better event recommendations from EventFinder.</p>
+                </article>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Signup Modal -->
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeSignup()">&times;</span>
-            <h2>Sign Up</h2>
-            <form id="signupForm">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <select required>
-                    <option value="">Select Type</option>
-                    <option value="affiliated">Affiliated Student</option>
-                    <option value="non-affiliated">Non-Affiliated</option>
-                </select>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
-            </form>
-            <p class="form-toggle">Already have an account? <a href="#" onclick="switchToLogin()">Sign In</a></p>
-        </div>
-    </div>
 
     <!-- Event Details Modal -->
     <div id="eventDetailsModal" class="modal modal-large">
