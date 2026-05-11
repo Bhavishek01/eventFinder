@@ -4,29 +4,18 @@
     validates non-college email and tell them to wait for admin approval
 */
 
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+const emailRegex = /^[a-zA-Z]+\d+(bit|bca)\d+@kcc\.edu\.np$/i;
+const phoneRegex = /^(98|97)\d{8}$/;
+
+
 function isValidCollegeEmail(email) {
-    const collegeEmailPattern = /^[a-zA-Z]+\d+(bit|bca)\d+@kcc\.edu\.np$/i;
-    return collegeEmailPattern.test(email);
+    return emailRegex.test(email);
 }
 
+
 function isValidPassword(password) {
-    if (password.length < 8) {
-        return false;
-    }
-    
-    if (!/[A-Z]/.test(password)) {
-        return false;
-    }
-    
-    if (!/\d/.test(password)) {
-        return false;
-    }
-    
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-        return false;
-    }
-    
-    return true;
+    return passwordRegex.test(password);
 }
 
 function getPasswordErrors(password) {
@@ -51,6 +40,9 @@ function getPasswordErrors(password) {
     return errors;
 }
 
+function isValidPhone(phone) {
+    return phoneRegex.test(phone);
+}
 
 function handleLoginSubmit(event) {
     const email = document.getElementById('email').value.trim();
@@ -72,64 +64,50 @@ function handleLoginSubmit(event) {
 
 }
 
-/**
- * Handle Signup Form Submission
- */
 function handleSignupSubmit(event) {
     const fullname = document.getElementById('fullname').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
     
-    // Validate all fields
+
     if (!fullname) {
         event.preventDefault();
         alert("Please enter your full name");
         return false;
     }
-    
-    if (!email) {
-        event.preventDefault();
-        alert("Please enter your email");
-        return false;
-    }
-    
-    if (!password) {
-        event.preventDefault();
-        alert("Please enter a password");
-        return false;
-    }
-    
-    if (!confirmPassword) {
-        event.preventDefault();
-        alert("Please confirm your password");
-        return false;
-    }
-    
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        event.preventDefault();
-        alert("Passwords do not match");
-        return false;
-    }
-    
-    // Validate password requirements
-    if (!isValidPassword(password)) {
-        event.preventDefault();
-        const errors = getPasswordErrors(password);
-        alert("Password requirements not met:\n" + errors.join("\n"));
-        return false;
-    }
-    
-    // Check if email is college format
+
     if (!isValidCollegeEmail(email)) {
         event.preventDefault();
         window.location.href = 'non-college-signup.html';
         return false;
     }
+        
+    if (!address) {
+        event.preventDefault();
+        alert("Please enter your address");
+        return false;
+    }
 
+    if(!isValidPhone(phone)) {
+        event.preventDefault();
+        alert("Please enter a valid phone number (98XXXXXXXX or 97XXXXXXXX)");
+        return false;
+    }
+    
+    if (!isValidPassword(password)) {
+        event.preventDefault();
+        const errors = getPasswordErrors(password);
+        alert("Password requirements not met");
+        return false;
+    }else if (password !== confirmPassword) {
+        event.preventDefault();
+        alert("Passwords do not match");
+        return false;
+    }
     return true;
-
 }
 
 /**
