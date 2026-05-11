@@ -303,9 +303,9 @@ body.dark-mode .signup-link a:hover {
 }
 
 body.dark-mode .toggle-password {
-    color: var(--dark);
+    color: darkgray
 }
 
 body.dark-mode .toggle-password:hover {
-    color: var(--dark-dark);
+    color: white;
 }

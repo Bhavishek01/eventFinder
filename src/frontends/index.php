@@ -1,6 +1,6 @@
 <?php
-
 include '../database/db_con.php';
+
 
 ?>
 <!DOCTYPE html>
