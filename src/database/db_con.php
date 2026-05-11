@@ -2,14 +2,11 @@
 
 $conn = new mysqli("localhost", "root", "", "eventfinder0");
 
-if ($conn->connect_error) 
-    {
-        echo("Database connection unsuccessful!");
-    }
-else 
-    {
-        $msg = "Connected to database 'eventfinder0' successfully!";
-        echo "<script>alert('" . addslashes($msg) . "');</script>";
-    }
+if ($conn->connect_error) {
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $conn->connect_error]));
+}
+
+// Set charset
+$conn->set_charset("utf8");
 
 ?>

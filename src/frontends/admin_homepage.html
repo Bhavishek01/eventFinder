@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Admin Dashboard</title>
     <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="../css/modal.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -164,16 +165,15 @@
     </div>
 
     <script src="../js/homepage.js"></script>
+    <script src="../js/modal.js"></script>
     <script>
         // Admin-specific functions
         function createNewEvent() {
-            alert('Create Event feature - To be implemented');
-            // window.location.href = 'create-event.html';
+            openCreateEventModal();
         }
 
         function manageEvents() {
-            alert('Manage Events feature - To be implemented');
-            // window.location.href = 'manage-events.html';
+            window.location.href = 'manage_events.html';
         }
     </script>
 </body>
