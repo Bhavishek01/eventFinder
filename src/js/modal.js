@@ -68,9 +68,7 @@ function closeModal(modalId) {
 
 // ─── Create Event Modal ────────────────────────────────────────────────────
 
-/**
- * Open the Create Event modal by fetching create_event.html
- */
+
 function openCreateEventModal() {
     openModal('../frontends/create_event.html', 'createEventModal', function(modal) {
         attachCreateEventFormEvents(modal);
@@ -78,18 +76,11 @@ function openCreateEventModal() {
     });
 }
 
-/**
- * Close the Create Event modal
- */
 function closeCreateEventModal() {
     closeModal('createEventModal');
 }
 
-/**
- * Wire up the Create Event form submit handler.
- * Uses the modal container as scope so IDs don't clash if multiple
- * modals are ever open simultaneously.
- */
+
 function attachCreateEventFormEvents(modal) {
     const form = modal.querySelector('#createEventForm');
     if (!form) return;

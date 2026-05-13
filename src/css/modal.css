@@ -64,7 +64,6 @@ body {
     width: min(760px, 98%);
 }
 
-/* Modal Header Styling */
 .modal-header {
     display: flex;
     justify-content: space-between;
