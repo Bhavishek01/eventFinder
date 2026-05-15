@@ -178,20 +178,40 @@ body {
     box-shadow: 0 6px 14px rgba(24, 68, 48, 0.25);
 }
 
-.btn-cancel {
-    background: #e0e0e0;
-    color: var(--dark-green);
-    padding: 10px 24px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.action-buttons {
+    display: flex;
+    gap: 12px;
 }
 
-.btn-cancel:hover {
-    background: #d0d0d0;
-    transform: translateY(-1px);
+.volunteer-btn {
+    flex: 1 1 calc(50% - 8px);   /* Ensures two buttons fit side by side */
+    min-width: 140px;            /* Minimum width for readability */
+    background: var(--green-light);
+    color: white;
+    border: none;
+    border-radius: 6px;
 }
+
+.volunteer-btn:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(24, 68, 48, 0.25);
+}
+.registration-btn {
+    flex: 1 1 calc(50% - 8px);   /* Ensures two buttons fit side by side */
+    min-width: 140px;            /* Minimum width for readability */
+    background: var(--green-light);
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.registration-btn:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(24, 68, 48, 0.25);
+}
+
 
 /* Dark Mode Styling */
 body.dark-mode {

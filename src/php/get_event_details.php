@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+if (!isset($_SESSION['user_role'])) {
     http_response_code(403);
     echo json_encode(['error' => 'Unauthorized']);
     exit;

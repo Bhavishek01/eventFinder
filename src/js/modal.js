@@ -68,9 +68,6 @@ function closeModal(modalId) {
 
 // ─── Create Event Modal ────────────────────────────────────────────────────
 
-/**
- * Open the Create Event modal by fetching create_event.html
- */
 function openCreateEventModal() {
     openModal('../frontends/create_event.html', 'createEventModal', function(modal) {
         attachCreateEventFormEvents(modal);
@@ -78,9 +75,6 @@ function openCreateEventModal() {
     });
 }
 
-/**
- * Close the Create Event modal
- */
 function closeCreateEventModal() {
     closeModal('createEventModal');
 }

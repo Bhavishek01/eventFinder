@@ -18,7 +18,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Discover Events</title>
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/homepage.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -41,10 +41,10 @@ session_start();
             <h1>Discover College Events</h1>
             <p>Find and attend the best events happening in your college</p>
             <div class="header-buttons">
-                <a href="#footer" class="btn btn-primary">Explore Events</a>
-                <a href="#footer" class="btn btn-primary">About us</a>
-                <a href="#footer" class="btn btn-primary">Contact</a>
-                <a href="signup.html" class="btn btn-secondary">Get Started</a>
+                <a href="#footer" class="btn btn-pri">Explore Events</a>
+                <a href="#footer" class="btn btn-pri">About us</a>
+                <a href="#footer" class="btn btn-pri">Contact</a>
+                <a href="signup.html" class="btn btn-sec">Get Started</a>
             </div>
         </div>
     </section>
@@ -107,5 +107,6 @@ session_start();
 
     <script src="../js/toggle_modes.js"></script>
     <script src="../js/homepage_only.js"></script>
+    <script src="../js/modal.js"></script>
 </body>
 </html>

@@ -17,33 +17,27 @@
             <div class="nav-buttons">
                 <div class="profile-dropdown">
                     <button class="btn-profile" id="profileBtn" onclick="toggleProfileMenu()">
-                        <img id="userProfilePic" 
-                            src="../uploads/profile_photos/default.jpg" 
-                            alt="Profile" 
-                            style="width: 40px; height: 40px; object-fit: cover;  border-radius: 50%; border: none;">
+                        <img id="userProfilePic"
+                            src="../uploads/profile_photos/default.jpg"
+                            alt="Profile"
+                            style="width:40px; height:40px; object-fit:cover; border-radius:50%; border:none;">
                     </button>
                     <div id="profileMenu" class="dropdown-menu">
-                        <a href="#" onclick="goToProfile()">
-                            <span>👤</span> Profile
-                        </a>
-                        <a href="#" onclick="toggleAppearance()">
-                            <span>🎨</span> Appearance
-                        </a>
-                        <div id="themeOptions" class="theme-options" style="display: none;">
+                        <a href="#" onclick="goToProfile()"><span>👤</span> Profile</a>
+                        <a href="#" onclick="toggleAppearance()"><span>🎨</span> Appearance</a>
+                        <div id="themeOptions" class="theme-options" style="display:none;">
                             <a href="#" onclick="setTheme('light')">☀️ Light</a>
                             <a href="#" onclick="setTheme('dark')">🌙 Dark</a>
                         </div>
                         <hr>
-                        <a href="#" onclick="logout()">
-                            <span>🚪</span> Logout
-                        </a>
+                        <a href="#" onclick="logout()"><span>🚪</span> Logout</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- header Section -->
+    <!-- Header Section -->
     <section class="header">
         <div class="header-content">
             <h1>eventFinder</h1>
@@ -52,18 +46,23 @@
         </div>
     </section>
 
-    <!-- Home and Dashboard Switch -->
+    <!-- Home / Dashboard Switch -->
     <section class="view-switcher-section">
         <div class="container">
             <div class="view-switcher" role="tablist" aria-label="Main sections">
-                <button id="homeTabBtn" class="btn view-tab active" type="button" role="tab" aria-controls="homeSection" aria-selected="true" onclick="switchMainSection('home')">Home</button>
-                <button id="dashboardTabBtn" class="btn view-tab" type="button" role="tab" aria-controls="dashboardSection" aria-selected="false" onclick="switchMainSection('dashboard')">Dashboard</button>
+                <button id="homeTabBtn"      class="btn view-tab active" type="button" role="tab"
+                        aria-controls="homeSection"      aria-selected="true"
+                        onclick="switchMainSection('home')">Home</button>
+                <button id="dashboardTabBtn" class="btn view-tab"        type="button" role="tab"
+                        aria-controls="dashboardSection" aria-selected="false"
+                        onclick="switchMainSection('dashboard')">Dashboard</button>
             </div>
         </div>
     </section>
 
-    <!-- Home Section - Admin Dashboard -->
-    <section class="events-section content-section active" id="dashboardSection" role="tabpanel" hidden="true">
+    <!-- Dashboard Section -->
+    <section class="events-section content-section active" id="dashboardSection"
+             role="tabpanel" hidden="true">
         <div class="container">
             <h2 class="section-title">Admin Dashboard</h2>
             <div class="dashboard-grid">
@@ -119,43 +118,33 @@
                     <p class="dashboard-value">487</p>
                     <p>Students actively using the platform.</p>
                 </article>
-
             </div>
         </div>
     </section>
 
-    <!-- Reports Section -->
+    <!-- Home Section -->
     <section class="events-section content-section active" id="homeSection" role="tabpanel">
         <div class="container">
             <h2 class="section-title">Upcoming Events</h2>
-            <div class="events-grid" id="eventsGrid">
-               
-            </div>
+            <div class="events-grid" id="eventsGrid"></div>
 
             <div class="home-subsection">
                 <h2 class="section-title">Recent Events</h2>
-                <div class="events-grid" id="recentEventsGrid">
-                
-                </div>
+                <div class="events-grid" id="recentEventsGrid"></div>
             </div>
         </div>
     </section>
 
-    <!-- Event Details Modal -->
-    <div id="eventDetailsModal" class="modal modal-large">
-        <div class="modal-content modal-content-large">
-            <span class="close" onclick="closeEventDetailsModal()">&times;</span>
-            <div id="eventDetailsContent">
-                <!-- Event details will be populated by JavaScript -->
-            </div>
-        </div>
-    </div>
+    <!--
+        No hardcoded #eventDetailsModal div here.
+        modal.js creates it dynamically when openModal('...event_details_modal.html', 'eventDetailsModal') is called.
+        modal.js also handles backdrop clicks and Escape key to close it via closeModal('eventDetailsModal').
+    -->
 
     <script src="../js/toggle_modes.js"></script>
     <script src="../js/homepage.js"></script>
     <script src="../js/modal.js"></script>
     <script>
-        // Admin-specific functions
         function createNewEvent() {
             openCreateEventModal();
         }
@@ -164,11 +153,11 @@
             window.location.href = 'manage_events.html';
         }
 
-        // Toggle appearance menu
         function toggleAppearance() {
             const themeOptions = document.getElementById('themeOptions');
             if (themeOptions) {
-                themeOptions.style.display = themeOptions.style.display === 'none' ? 'block' : 'none';
+                themeOptions.style.display =
+                    themeOptions.style.display === 'none' ? 'block' : 'none';
             }
         }
     </script>
