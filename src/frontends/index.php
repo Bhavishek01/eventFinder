@@ -1,7 +1,16 @@
 <?php
+
 include '../database/db_con.php';
+session_start();
 
-
+// if (isset($_SESSION['user_id']) || isset($_COOKIE['remember_login'])) {
+//     if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+//         header('Location: ../frontends/admin_homepage.html');
+//     } else {
+//         header('Location: ../frontends/student_homepage.html');
+//     }
+//     exit();
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,12 +25,12 @@ include '../database/db_con.php';
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2>eventFinder</h2>
+                <h2>Event Finder</h2>
             </div>
             <div class="nav-buttons">
                 <a href="login.html" class="btn login">Login</a>
                 <a href="signup.html" class="btn signup">Sign Up</a>
-                <button class="btn theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle theme">Dark Mode</button>
+                <button class="btn theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle theme"></button>
             </div>
         </div>
     </nav>
@@ -40,61 +49,18 @@ include '../database/db_con.php';
         </div>
     </section>
 
-    <!-- upcoming Events Section -->
-    <section class="upcoming-events">
+        <!-- Home Section -->
+    <section class="events-section content-section active" id="homeSection" role="tabpanel">
         <div class="container">
-            <h2>Upcoming Events </h2>
-            <div class="events-grid">
-                <div class="event-card">
-                    <div class="event-category">Technology</div>
-                    <h3>Annual Tech Conference 2026</h3>
-                    <p class="event-date"> April 15, 2026</p>
-                    <p class="event-desc">Join industry leaders for a day of inspiring talks and networking opportunities.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
-                </div>
-                <div class="event-card">
-                    <div class="event-category">Music</div>
-                    <h3>Spring Music Festival</h3>
-                    <p class="event-date"> May 10, 2026</p>
-                    <p class="event-desc">Experience live performances from local and international artists.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
-                </div>
-                <div class="event-card">
-                    <div class="event-category">Sports</div>
-                    <h3>Community Sports Day</h3>
-                    <p class="event-date"> March 28, 2026</p>
-                    <p class="event-desc">Participate in various sports activities with community members.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
-                </div>
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-grid" id="eventsGrid">
+                
             </div>
-        </div>
-    </section>
 
-    <!-- Popular Events Section -->
-    <section class="popular-events">
-        <div class="container">
-            <h2>Popular Events </h2>
-            <div class="events-grid">
-                <div class="event-card">
-                    <div class="event-category">Technology</div>
-                    <h3>Annual Tech Conference 2026</h3>
-                    <p class="event-date"> April 15, 2026</p>
-                    <p class="event-desc">Join industry leaders for a day of inspiring talks and networking opportunities.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
-                </div>
-                <div class="event-card">
-                    <div class="event-category">Music</div>
-                    <h3>Spring Music Festival</h3>
-                    <p class="event-date"> May 10, 2026</p>
-                    <p class="event-desc">Experience live performances from local and international artists.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
-                </div>
-                <div class="event-card">
-                    <div class="event-category">Sports</div>
-                    <h3>Community Sports Day</h3>
-                    <p class="event-date"> March 28, 2026</p>
-                    <p class="event-desc">Participate in various sports activities with community members.</p>
-                    <a href="login.html" class="btn btn-outline">Learn More</a>
+            <div class="home-subsection">
+                <h2 class="section-title">Popular Events</h2>
+                <div class="events-grid" id="popularEventsGrid">
+                    
                 </div>
             </div>
         </div>
@@ -139,30 +105,7 @@ include '../database/db_con.php';
         </div>
     </footer>
 
-    <script>
-    // Theme toggle logic
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-
-    function setTheme(mode) {
-        if (mode === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggleBtn.textContent = 'Light Mode';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.classList.remove('dark-mode');
-            themeToggleBtn.textContent = 'Dark Mode';
-            localStorage.setItem('theme', 'light');
-        }
-    }
-    // On load, set theme from localStorage
-    (function() {
-        const savedTheme = localStorage.getItem('theme');
-        setTheme(savedTheme === 'dark' ? 'dark' : 'light');
-    })();
-    themeToggleBtn.addEventListener('click', function() {
-        const isDark = document.body.classList.contains('dark-mode');
-        setTheme(isDark ? 'light' : 'dark');
-    });
-    </script>
+    <script src="../js/toggle_modes.js"></script>
+    <script src="../js/homepage_only.js"></script>
 </body>
 </html>

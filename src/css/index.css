@@ -150,6 +150,11 @@ body {
     box-shadow: 0 8px 18px rgba(24, 68, 48, 0.25);
 }
 
+.events-section {
+    padding: 60px 0;
+}
+
+
 .upcoming-events, .popular-events {
     padding: 20px 0 72px;
     background: var(--light-beige);
@@ -165,6 +170,7 @@ body {
 .events-grid {
     display: grid;
     gap: 20px;
+    padding: 24px;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 

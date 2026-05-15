@@ -10,7 +10,7 @@
 <body>
     <!-- Theme Toggle Button -->
     <div class="theme-toggle">
-        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">
+        <button id="themeToggle" class="theme-btn" onclick="toggleThemeBtn()">
             <i class="fa-solid fa-moon" id="themeIcon"></i>
         </button>
     </div>
@@ -47,46 +47,7 @@
             Don't have an account? <a href="signup.html">Sign up</a>
         </p>
     </div>
+    <script src="../js/toggle_modes.js"></script>
     <script src="../js/validation.js"></script>
-    <script>
-        // Load saved theme on page load
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('authTheme') || 'light';
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeIcon').className = 'fa-solid fa-sun';
-            }
-        }
-
-        // Toggle theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const icon = document.getElementById('themeIcon');
-            
-            if (document.body.classList.contains('dark-mode')) {
-                icon.className = 'fa-solid fa-sun';
-                localStorage.setItem('authTheme', 'dark');
-            } else {
-                icon.className = 'fa-solid fa-moon';
-                localStorage.setItem('authTheme', 'light');
-            }
-        }
-
-        // Check for login error and show popup
-        function checkLoginError() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('error')) {
-                alert('Invalid email or password. Please try again.');
-                // Clean up URL without reloading
-                window.history.replaceState({}, document.title, 'login.html');
-            }
-        }
-
-        // Initialize theme on load
-        loadTheme();
-        
-        // Check for login errors when page loads
-        window.addEventListener('DOMContentLoaded', checkLoginError);
-    </script>
 </body>
 </html>

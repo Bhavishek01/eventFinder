@@ -120,36 +120,18 @@
     </section>
 
     <!-- Reports Section -->
-    <section class="dashboard-section content-section" id="homeSection" role="tabpanel" aria-hidden="false">
+    <section class="events-section content-section active" id="homeSection" role="tabpanel">
         <div class="container">
-            <h2 class="section-title">Reports and Analytics</h2>
-            <div class="dashboard-grid">
-                <article class="dashboard-card">
-                    <h3>Total Events</h3>
-                    <p class="dashboard-value">28</p>
-                    <p>Total events created this semester.</p>
-                </article>
-                <article class="dashboard-card">
-                    <h3>Total Registrations</h3>
-                    <p class="dashboard-value">1,250</p>
-                    <p>Student registrations across all events.</p>
-                </article>
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-grid" id="eventsGrid">
+               
+            </div>
+
+            <div class="home-subsection">
+                <h2 class="section-title">Recent Events</h2>
+                <div class="events-grid" id="recentEventsGrid">
                 
-                <article class="dashboard-card">
-                    <h3>Attendance Rate</h3>
-                    <p class="dashboard-value">78%</p>
-                    <p>Average attendance rate for events.</p>
-                </article>
-                <article class="dashboard-card">
-                    <h3>System Health</h3>
-                    <p class="dashboard-value">✅ Good</p>
-                    <p>All systems operating normally.</p>
-                </article>
-                <article class="dashboard-card">
-                    <h3>Support Tickets</h3>
-                    <p class="dashboard-value">02 Open</p>
-                    <p>Outstanding support requests.</p>
-                </article>
+                </div>
             </div>
         </div>
     </section>
@@ -164,6 +146,7 @@
         </div>
     </div>
 
+    <script src="../js/toggle_modes.js"></script>
     <script src="../js/homepage.js"></script>
     <script src="../js/modal.js"></script>
     <script>
@@ -174,6 +157,14 @@
 
         function manageEvents() {
             window.location.href = 'manage_events.html';
+        }
+
+        // Toggle appearance menu
+        function toggleAppearance() {
+            const themeOptions = document.getElementById('themeOptions');
+            if (themeOptions) {
+                themeOptions.style.display = themeOptions.style.display === 'none' ? 'block' : 'none';
+            }
         }
     </script>
 </body>

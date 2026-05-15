@@ -60,13 +60,12 @@
         <div class="container">
             <h2 class="section-title">Upcoming Events</h2>
             <div class="events-grid" id="eventsGrid">
-                <!-- Events will be populated by JavaScript -->
+               
             </div>
 
             <div class="home-subsection">
                 <h2 class="section-title">Recent Events</h2>
                 <div class="events-grid" id="recentEventsGrid">
-                    <!-- Recent events will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -127,6 +126,16 @@
         </div>
     </div>
 
+    <script src="../js/toggle_modes.js"></script>
     <script src="../js/homepage.js"></script>
+    <script>
+        // Toggle appearance menu
+        function toggleAppearance() {
+            const themeOptions = document.getElementById('themeOptions');
+            if (themeOptions) {
+                themeOptions.style.display = themeOptions.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+    </script>
 </body>
 </html>
