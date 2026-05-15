@@ -83,6 +83,22 @@ function switchMainSection(sectionName) {
     }
 }
 
+async function loadCurrentUserProfile() {
+    try {
+        const res = await fetch('../php/get_current_user.php');
+        const data = await res.json();
+
+        if (data.success && data.user) {
+            const profilePic = document.getElementById('userProfilePic');
+            if (profilePic) {
+                profilePic.src = '../' + data.user.photo;
+            }
+        }
+    } catch (error) {
+        console.error('Failed to load user profile:', error);
+    }
+}
+
 
 window.onclick = function(event) {
     const loginModal = document.getElementById('loginModal');
@@ -143,4 +159,5 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUpcomingEvents();
     loadRecentEvents();
     switchMainSection('home');
+    loadCurrentUserProfile();
 });

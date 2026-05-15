@@ -70,13 +70,15 @@ body {
 }
 
 .btn-profile {
-    background: var(--green-light);
-    color: var(--white);
-    min-width: 44px;
+    border: none;
+    padding: 2px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-profile:hover {
-    background: var(--green);
     transform: translateY(-1px);
 }
 
@@ -521,7 +523,7 @@ body.dark-mode .view-tab.active {
     border-color: transparent;
 }
 
-body.dark-mode .btn-profile,
+
 body.dark-mode .btn-more,
 body.dark-mode .btn-primary,
 body.dark-mode .registration-btn.pre-register {
@@ -529,7 +531,6 @@ body.dark-mode .registration-btn.pre-register {
     color: var(--dark-green);
 }
 
-body.dark-mode .btn-profile:hover,
 body.dark-mode .btn-more:hover,
 body.dark-mode .btn-primary:hover,
 body.dark-mode .registration-btn.pre-register:hover {

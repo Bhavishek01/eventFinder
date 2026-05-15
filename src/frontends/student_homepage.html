@@ -15,7 +15,12 @@
             </div>
             <div class="nav-buttons">
                 <div class="profile-dropdown">
-                    <button class="btn btn-profile" onclick="toggleProfileMenu()">👤</button>
+                    <button class="btn-profile" id="profileBtn" onclick="toggleProfileMenu()">
+                        <img id="userProfilePic" 
+                            src="../uploads/profile_photos/default.jpg" 
+                            alt="Profile" 
+                            style="width: 40px; height: 40px; object-fit: cover;  border-radius: 50%; border: none;">
+                    </button>
                     <div id="profileMenu" class="dropdown-menu">
                         <a href="#" onclick="goToProfile()">
                             <span>👤</span> Profile
