@@ -1,0 +1,35 @@
+<?php
+session_start();
+require_once '../database/db_con.php';
+
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    http_response_code(403);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+$user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
+
+if (!$user_id) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid user ID']);
+    exit;
+}
+
+$stmt = $conn->prepare("SELECT user_id, uname, email, role, phone, address, photo 
+                       FROM users WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if ($user) {
+    echo json_encode($user);
+} else {
+    http_response_code(404);
+    echo json_encode(['error' => 'User not found']);
+}
+
+$stmt->close();
+$conn->close();
+?>

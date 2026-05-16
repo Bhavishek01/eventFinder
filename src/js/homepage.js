@@ -195,6 +195,87 @@ function switchMainSection(sectionName) {
     }
 }
 
+// ====================== USER MANAGEMENT ======================
+
+function viewUserInList(userId, type) {
+    console.log(`[DEBUG] viewUserInList called - ID: ${userId}, Type: ${type}`);
+
+    if (type === 'edit_users') {
+        openEditUserModal(userId);
+    } else if (type === 'active_users') {
+        viewUserDetails(userId);   // We'll create this simple view
+    }
+}
+
+function openEditUserModal(userId) {
+    openModal('../frontends/edit_user.html', 'editUserModal', function(modal) {
+        loadUserForEditing(userId, modal);
+        attachEditUserFormEvents(modal);
+        attachModalCloseEvents(modal, 'editUserModal');
+    });
+}
+
+async function loadUserForEditing(userId, modal) {
+    try {
+        const res = await fetch(`../php/get_user_details.php?user_id=${userId}`);
+        const user = await res.json();
+
+        document.getElementById('userId').value = user.user_id;
+        document.getElementById('userName').value = user.uname;
+        document.getElementById('userEmail').value = user.email;
+        document.getElementById('userPhone').value = user.phone || '';
+        document.getElementById('userRole').value = user.role;
+        document.getElementById('userAddress').value = user.address || '';
+    } catch (err) {
+        console.error(err);
+        alert("Failed to load user data");
+    }
+}
+
+function attachEditUserFormEvents(modal) {
+    const form = modal.querySelector('#editUserForm');
+    if (!form) return;
+    form.removeEventListener('submit', handleEditUserSubmit);
+    form.addEventListener('submit', handleEditUserSubmit);
+}
+
+async function handleEditUserSubmit(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating...';
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('../php/update_user.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('User updated successfully!');
+            closeModal('editUserModal');
+            closeModal('adminListModal');
+            loadListData(currentListType); // refresh the list
+        } else {
+            alert('Error: ' + (data.message || 'Update failed'));
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Network error. Please try again.');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
 async function loadCurrentUserProfile() {
     try {
         const res  = await fetch('../php/get_current_user.php');
@@ -485,11 +566,6 @@ function filterAdminList() {
     });
 
     renderAdminList(filtered, currentListType);
-}
-
-function viewUserInList(userId, type) {
-    alert(`Opening ${type} for user ID: ${userId}`);
-    // Will implement later
 }
 
 function closeAdminListModal() {
