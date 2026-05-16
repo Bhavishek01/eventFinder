@@ -208,6 +208,294 @@ async function loadCurrentUserProfile() {
     }
 }
 
+// ====================== EDIT EVENT ======================
+
+function viewEventInList(eventId, type) {
+    console.log(`[DEBUG] viewEventInList called - ID: ${eventId}, Type: ${type}`);
+
+    if (type === 'edit_event') {
+        openEditEventModal(eventId);
+    } 
+    else if (type === 'total_events') {
+        viewEventDetails(eventId);        // This will open the nice existing modal
+    } 
+    else {
+        alert(`Not implemented yet for type: ${type}`);
+    }
+}
+
+function openEditEventModal(eventId) {
+    openModal('../frontends/edit_event.html', 'editEventModal', function(modal) {
+        loadEventForEditing(eventId, modal);
+        attachEditEventFormEvents(modal);
+        
+        // Explicitly attach close events (important for dynamically loaded modals)
+        attachModalCloseEvents(modal, 'editEventModal');
+    });
+}
+
+async function loadEventForEditing(eventId, modal) {
+    try {
+        const res = await fetch(`../php/get_event_details.php?event_id=${eventId}`);
+        const event = await res.json();
+
+        // Fill the form
+        document.getElementById('eventId').value = event.event_id;
+        document.getElementById('eventName').value = event.ename;
+        document.getElementById('eventLocation').value = event.venue || event.location || '';
+        document.getElementById('eventCategory').value = event.category;
+        document.getElementById('eventDescription').value = event.description;
+        document.getElementById('eventDate').value = event.date;
+        document.getElementById('eventTime').value = event.time || '';
+        document.getElementById('volunteersNeeded').value = event.volunteers_needed || 0;
+
+    } catch (err) {
+        console.error(err);
+        alert("Failed to load event data");
+    }
+}
+
+function attachEditEventFormEvents(modal) {
+    const form = modal.querySelector('#editEventForm');
+    if (!form) return;
+
+    form.removeEventListener('submit', handleEditEventSubmit);
+    form.addEventListener('submit', handleEditEventSubmit);
+}
+
+async function handleEditEventSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating...';
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('../php/update_event.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Event updated successfully!');
+            closeModal('editEventModal');
+            closeModal('adminListModal'); // close list too
+            loadListData(currentListType); // refresh list
+        } else {
+            alert('Error: ' + (data.message || 'Update failed'));
+        }
+    } catch (error) {
+        alert('Network error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
+// Open Issue Notice Modal Directly
+function openIssueNoticeModal() {
+    openModal('../frontends/create_notice.html', 'createNoticeModal', function(modal) {
+        attachCreateNoticeFormEvents(modal);
+    });
+}
+
+// Attach form submit handler
+function attachCreateNoticeFormEvents(modal) {
+    const form = modal.querySelector('#createNoticeForm');
+    if (!form) return;
+
+    form.removeEventListener('submit', handleNoticeFormSubmit);
+    form.addEventListener('submit', handleNoticeFormSubmit);
+}
+
+async function handleNoticeFormSubmit(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Publishing...';
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('../php/add_notice.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Notice published successfully!');
+            closeModal('createNoticeModal');
+            // Optional: refresh notices if you have a list somewhere
+        } else {
+            alert('Error: ' + (data.message || 'Failed to publish notice'));
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Network error. Please try again.');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
+// ==================== GENERIC ADMIN LIST MODAL ====================
+
+let currentListType = '';
+let currentListData = [];
+
+function openAdminListModal(type) {
+    currentListType = type;
+    
+    openModal('../frontends/admin_list_modal.html', 'adminListModal', function(modal) {
+        loadListData(type);
+    });
+}
+
+async function loadListData(type) {
+    const contentDiv = document.getElementById('adminListContent');
+    if (!contentDiv) return;
+
+    contentDiv.innerHTML = '<p style="text-align:center; padding:40px;">Loading data...</p>';
+
+    let url = '';
+
+    switch(type) {
+        case 'edit_event':
+        case 'total_events':
+            url = '../php/get_all_events.php';
+            break;
+        case 'active_users':
+        case 'edit_users':
+            url = '../php/get_all_users.php';
+            break;
+        default:
+            contentDiv.innerHTML = '<p>Unknown list type.</p>';
+            return;
+    }
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Server error');
+        
+        const data = await res.json();
+        
+        currentListData = Array.isArray(data) ? data : [];
+        
+        if (currentListData.length === 0) {
+            contentDiv.innerHTML = '<p style="text-align:center; padding:40px;">No records found.</p>';
+        } else {
+            renderAdminList(currentListData, type);
+        }
+    } catch (err) {
+        console.error(err);
+        contentDiv.innerHTML = `<p style="color:red; text-align:center;">Failed to load data.<br><small>${err.message}</small></p>`;
+    }
+}
+
+function renderAdminList(data, type) {
+    const contentDiv = document.getElementById('adminListContent');
+    const titleEl = document.getElementById('listModalTitle');
+
+    // Set dynamic title
+    const titles = {
+        'edit_event': 'Edit Events',
+        'total_events': 'All Events',
+        'active_users': 'Active Users',
+        'edit_users': 'Edit Users',
+        'complaints': 'Pending Complaints',
+        'feedback': 'All Feedback',
+        'items_reported': 'Reported Items'
+    };
+    titleEl.textContent = titles[type] || 'Admin List';
+
+    if (!data || data.length === 0) {
+        contentDiv.innerHTML = '<p style="text-align:center; padding:40px;">No records found.</p>';
+        return;
+    }
+
+    let html = '';
+
+    data.forEach(item => {
+        let infoHTML = '';
+        let buttonText = 'View';
+        let onclick = '';
+
+        switch(type) {
+            case 'edit_event':
+            case 'total_events':
+                infoHTML = `
+                    <div class="list-info">
+                        <h4>${item.ename}</h4>
+                        <p>${item.date} | ${item.category} | ${item.venue}</p>
+                    </div>`;
+                buttonText = type === 'edit_event' ? 'Edit' : 'View';
+                onclick = `viewEventInList(${item.event_id}, '${type}')`;
+                break;
+
+            case 'active_users':
+            case 'edit_users':
+                infoHTML = `
+                    <div class="list-info">
+                        <h4>${item.uname}</h4>
+                        <p>${item.email} | ${item.role}</p>
+                    </div>`;
+                buttonText = type === 'edit_users' ? 'Edit' : 'View';
+                onclick = `viewUserInList(${item.user_id}, '${type}')`;
+                break;
+
+            // We will implement others in later steps
+            default:
+                infoHTML = `<div class="list-info"><h4>Item ID: ${item.id || 'N/A'}</h4></div>`;
+                onclick = `alert('Not implemented yet')`;
+        }
+
+        html += `
+            <div class="admin-list-item">
+                ${infoHTML}
+                <button class="btn btn-action" onclick="${onclick}">${buttonText}</button>
+            </div>`;
+    });
+
+    contentDiv.innerHTML = html;
+}
+
+function filterAdminList() {
+    const searchTerm = document.getElementById('adminListSearch').value.toLowerCase().trim();
+    
+    const filtered = currentListData.filter(item => {
+        if (currentListType.includes('event')) {
+            return item.ename && item.ename.toLowerCase().includes(searchTerm);
+        } else if (currentListType.includes('user')) {
+            return (item.uname && item.uname.toLowerCase().includes(searchTerm)) ||
+                   (item.email && item.email.toLowerCase().includes(searchTerm));
+        }
+        return true;
+    });
+
+    renderAdminList(filtered, currentListType);
+}
+
+function viewUserInList(userId, type) {
+    alert(`Opening ${type} for user ID: ${userId}`);
+    // Will implement later
+}
+
+function closeAdminListModal() {
+    closeModal('adminListModal');
+}
+
 function toggleProfileMenu() {
     const profileMenu = document.getElementById('profileMenu');
     if (profileMenu) {

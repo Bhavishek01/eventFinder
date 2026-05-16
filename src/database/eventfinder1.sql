@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2026 at 02:02 PM
+-- Generation Time: May 16, 2026 at 01:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,7 +50,6 @@ CREATE TABLE `events` (
   `ename` varchar(150) NOT NULL,
   `description` text DEFAULT NULL,
   `category` varchar(100) NOT NULL,
-  `status` varchar(100) DEFAULT 'upcoming',
   `date` date NOT NULL,
   `time` time NOT NULL,
   `venue` varchar(255) NOT NULL,
@@ -62,11 +61,8 @@ CREATE TABLE `events` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `feedback`
---
 
 CREATE TABLE `feedback` (
   `feedback_id` int(11) NOT NULL,
@@ -144,8 +140,6 @@ CREATE TABLE `participators` (
   `registered_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
 -- Table structure for table `users`
 --
@@ -163,11 +157,8 @@ CREATE TABLE `users` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Indexes for dumped tables
---
-
---
+-
+-
 -- Indexes for table `complaints`
 --
 ALTER TABLE `complaints`
@@ -246,7 +237,7 @@ ALTER TABLE `complaints`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -276,13 +267,13 @@ ALTER TABLE `lost_items`
 -- AUTO_INCREMENT for table `participators`
 --
 ALTER TABLE `participators`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

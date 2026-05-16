@@ -66,57 +66,84 @@
         <div class="container">
             <h2 class="section-title">Admin Dashboard</h2>
             <div class="dashboard-grid">
+                <!-- Create Event -->
                 <article class="dashboard-card admin-action-card">
                     <h3>➕ Create Events</h3>
                     <p class="dashboard-value">New</p>
                     <p>Create and publish new events for the college.</p>
                     <button class="btn btn-action" onclick="createNewEvent()">Create Event</button>
                 </article>
+
+                <!-- Edit Events -->
                 <article class="dashboard-card admin-action-card">
                     <h3>✏️ Edit Events</h3>
                     <p class="dashboard-value">Active</p>
                     <p>Modify and manage existing events.</p>
-                    <button class="btn btn-action" onclick="manageEvents()">Manage Events</button>
+                    <button class="btn btn-action" onclick="openAdminListModal('edit_event')">Edit Events</button>
                 </article>
+
+                <!-- Items Reported -->
                 <article class="dashboard-card">
                     <h3>📍 Items Reported</h3>
                     <p class="dashboard-value">12</p>
                     <p>Lost and found items reported by students.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('items_reported')">Enquire</button>
                 </article>
+
+                <!-- Complaints -->
                 <article class="dashboard-card">
                     <h3>📋 Complaints</h3>
                     <p class="dashboard-value">05 Pending</p>
                     <p>Student complaints and issues to review.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('complaints')">View</button>
                 </article>
+
+                <!-- Feedback -->
                 <article class="dashboard-card">
                     <h3>⭐ Feedback</h3>
                     <p class="dashboard-value">34 Received</p>
                     <p>Event feedback and ratings from students.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('feedback')">View</button>
                 </article>
+
+                <!-- Issue Notice -->
                 <article class="dashboard-card">
                     <h3>🔔 Issue Notice</h3>
                     <p class="dashboard-value">03 Active</p>
                     <p>Important notices and announcements.</p>
+                    <button class="btn btn-action" onclick="openIssueNoticeModal()">Publish Notice</button>
                 </article>
+
+                <!-- Total Events -->
                 <article class="dashboard-card">
                     <h3>Total Events</h3>
                     <p class="dashboard-value">28</p>
                     <p>Total events created this semester.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('total_events')">View</button>
                 </article>
+
+                <!-- Active Users -->
                 <article class="dashboard-card">
                     <h3>Active Users</h3>
                     <p class="dashboard-value">487</p>
                     <p>Students actively using the platform.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('active_users')">View</button>
                 </article>
+
+                <!-- Edit Users -->
                 <article class="dashboard-card">
                     <h3>Edit Users</h3>
                     <p class="dashboard-value">487</p>
-                    <p>Students actively using the platform.</p>
+                    <p>Manage student and staff accounts.</p>
+                    <button class="btn btn-action" onclick="openAdminListModal('edit_users')">Edit Users</button>
                 </article>
+
+                <!-- Event Request (Optional - you can keep or remove) -->
                 <article class="dashboard-card">
                     <h3>Event Request</h3>
-                    <p class="dashboard-value">487</p>
-                    <p>Students actively using the platform.</p>
+                    <p class="dashboard-value">Pending</p>
+                    <p>Student event proposals.</p>
+                    <button class="btn btn-action" onclick="alert('Event Request module coming soon!')">Review</button>
                 </article>
             </div>
         </div>

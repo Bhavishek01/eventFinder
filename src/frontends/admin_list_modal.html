@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin List</title>
+    <link rel="stylesheet" href="../css/modal.css">
+    <style>
+        .admin-list-search {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .admin-list-container {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .admin-list-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-list-item:last-child {
+            border-bottom: none;
+        }
+        .list-info h4 {
+            margin: 0 0 6px 0;
+            color: var(--dark-green);
+        }
+        .list-info p {
+            margin: 0;
+            color: #555;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="adminListModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2 id="listModalTitle">Admin List</h2>
+                <span class="close" onclick="closeAdminListModal()">✕</span>
+            </div>
+            
+            <input type="text" id="adminListSearch" class="admin-list-search" 
+                   placeholder="Search..." onkeyup="filterAdminList()">
+
+            <div class="admin-list-container" id="adminListContent">
+                <p style="text-align:center; padding:40px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeAdminListModal() {
+            closeModal('adminListModal');
+        }
+    </script>
+</body>
+</html>
