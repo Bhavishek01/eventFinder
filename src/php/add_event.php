@@ -3,6 +3,10 @@
 // Include database connection
 require_once('../database/db_con.php');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Set header to return JSON
 header('Content-Type: application/json');
 
@@ -19,15 +23,36 @@ $location = trim($_POST['eventLocation'] ?? '');
 $description = trim($_POST['eventDescription'] ?? '');
 $date = $_POST['eventDate'] ?? '';
 $time = $_POST['eventTime'] ?? '';
-$status = $_POST['eventStatus'] ?? '';
 $volunteersNeeded = (int)($_POST['volunteersNeeded'] ?? 0);
+$photoPath = null;
 
+$createdBy = $_SESSION['user_id'] ?? null;
 
-$createdBy = 'admin1';
+if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ERR_OK) {
+    $file = $_FILES['eventPhoto'];
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        if (!in_array($file['type'], $allowedTypes)) {
+            die('Only JPG, PNG, GIF and WebP images are allowed.');
+        }
+
+        $uploadDir = __DIR__ . '/../uploads/event_photos/';
+        
+        $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $newFileName = 'event_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
+        $targetPath = $uploadDir . $newFileName;
+        
+        if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+            $photoPath = 'uploads/event_photos/' . $newFileName; // relative path to store in DB
+        } else {
+            die('Failed to upload photo.');
+            exit;
+        }
+}
 
 try {
     // Prepare the SQL statement
-    $sql = "INSERT INTO events (category, ename, description, status, date, time, venue, volunteers_needed, created_by) 
+    $sql = "INSERT INTO events (category, ename, description, date, time, venue, volunteers_needed, created_by, photo) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
@@ -39,16 +64,16 @@ try {
 
     // Bind parameters
     $stmt->bind_param(
-        'sssssssis',
+        'ssssssiss',
         $category,
         $eventName,
         $description,
-        $status,
         $date,
         $time,
         $location,
         $volunteersNeeded,
-        $createdBy
+        $createdBy,
+        $photoPath
     );
 
     // Execute the statement

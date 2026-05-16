@@ -43,9 +43,6 @@ try {
 
         // Create uploads directory if it doesn't exist
         $uploadDir = __DIR__ . '/../uploads/profile_photos/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
-        }
 
         // Generate unique filename
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
