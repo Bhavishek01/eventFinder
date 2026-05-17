@@ -107,6 +107,5 @@ session_start();
 
     <script src="../js/toggle_modes.js"></script>
     <script src="../js/homepage_only.js"></script>
-    <script src="../js/modal.js"></script>
 </body>
 </html>

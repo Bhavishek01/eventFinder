@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event - Modal</title>
-    <link rel="stylesheet" href="../css/modal.css">
+    <title>Request New Event</title>
+    <link rel="stylesheet" href="../../css/modal.css">
 </head>
 <body>
-    <!-- Create Event Modal -->
-    <div id="createEventModal" class="modal modal-large show">
+    <div id="requestEventModal" class="modal modal-large show">
         <div class="modal-content modal-content-large">
             <div class="modal-header">
-                <h2>Create Event</h2>
-                <span class="close" onclick="closeCreateEventModal()">✕</span>
+                <h2>Request New Event</h2>
+                <span class="close" onclick="closeModal('requestEventModal')">✕</span>
             </div>
-            <form id="createEventForm" class="event-form" method="POST" action="../php/add_event.php">
+            
+            <form id="requestEventForm" class="event-form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="eventName">Event Name</label>
                     <input type="text" id="eventName" name="eventName" required placeholder="Enter event name">
@@ -36,6 +36,7 @@
                             <option value="technical">Technical</option>
                             <option value="workshop">Workshop</option>
                             <option value="seminar">Seminar</option>
+                            <option value="music">Music</option>
                             <option value="other">Other</option>
                         </select>
                     </div>
@@ -53,7 +54,7 @@
                     </div>
                     <div class="form-group">
                         <label for="eventTime">Time</label>
-                        <input type="time" id="eventTime" name="eventTime" required>
+                        <input type="time" id="eventTime" name="eventTime">
                     </div>
                 </div>
 
@@ -69,26 +70,10 @@
                 </div>
 
                 <div class="form-buttons">
-                    <button type="submit" class="btn btn-action">Create Event</button>
+                    <button type="submit" class="btn btn-action">Submit Request</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <script src="../js/toggle_modes.js"></script>
-    <script>
-        function closeCreateEventModal() {
-            document.getElementById('createEventModal').classList.remove('show');
-            document.getElementById('createEventForm').reset();
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const createEventModal = document.getElementById('createEventModal');
-            if (event.target === createEventModal) {
-                closeCreateEventModal();
-            }
-        }
-    </script>
 </body>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Feedback</title>
+    <link rel="stylesheet" href="../../css/modal.css">
+</head>
+<body>
+    <div id="feedbackModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2>Event Feedback</h2>
+                <span class="close" onclick="closeModal('feedbackModal')">✕</span>
+            </div>
+            
+            <form id="feedbackForm" class="event-form">
+                <input type="hidden" id="feedbackEventId" name="event_id">
+
+                <div class="form-group">
+                    <label for="rating">Rating (1-5)</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Very Poor</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedbackText">Your Feedback</label>
+                    <textarea id="feedbackText" name="feedback" rows="5" placeholder="Share your experience..."></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-action">Submit Feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

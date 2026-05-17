@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Complaint</title>
+    <link rel="stylesheet" href="../../css/modal.css">
+</head>
+<body>
+    <div id="complaintModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2>File Complaint</h2>
+                <span class="close" onclick="closeModal('complaintModal')">✕</span>
+            </div>
+            
+            <form id="complaintForm" class="event-form">
+                <input type="hidden" id="complaintEventId" name="event_id">
+
+                <div class="form-group">
+                    <label for="complaintSubject">Subject</label>
+                    <input type="text" id="complaintSubject" name="subject" required placeholder="Brief subject of complaint">
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintText">Complaint Details</label>
+                    <textarea id="complaintText" name="complaint" rows="6" required placeholder="Explain your complaint..."></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-action">Submit Complaint</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Admin Dashboard</title>
-    <link rel="stylesheet" href="../css/homepage.css">
-    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../../css/homepage.css">
+    <link rel="stylesheet" href="../../css/modal.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -18,7 +18,7 @@
                 <div class="profile-dropdown">
                     <button class="btn-profile" id="profileBtn" onclick="toggleProfileMenu()">
                         <img id="userProfilePic"
-                            src="../uploads/profile_photos/default.jpg"
+                            src="../../uploads/profile_photos/default.jpg"
                             alt="Profile"
                             style="width:40px; height:40px; object-fit:cover; border-radius:50%; border:none;">
                     </button>
@@ -71,7 +71,7 @@
                     <h3>➕ Create Events</h3>
                     <p class="dashboard-value">New</p>
                     <p>Create and publish new events for the college.</p>
-                    <button class="btn btn-action" onclick="createNewEvent()">Create Event</button>
+                    <button class="btn btn-action" onclick="openCreateEventModal()">Create Event</button>
                 </article>
 
                 <!-- Edit Events -->
@@ -168,25 +168,12 @@
         modal.js also handles backdrop clicks and Escape key to close it via closeModal('eventDetailsModal').
     -->
 
-    <script src="../js/toggle_modes.js"></script>
-    <script src="../js/homepage.js"></script>
-    <script src="../js/modal.js"></script>
+    <script src="../../js/toggle_modes.js"></script>
+    <script src="../../js/modal1.js"></script>
+    <script src="../../js/admin_dashboard.js"></script>
+    <script src="../../js/both_homepage.js"></script>
     <script>
-        function createNewEvent() {
-            openCreateEventModal();
-        }
 
-        function manageEvents() {
-            window.location.href = 'manage_events.html';
-        }
-
-        function toggleAppearance() {
-            const themeOptions = document.getElementById('themeOptions');
-            if (themeOptions) {
-                themeOptions.style.display =
-                    themeOptions.style.display === 'none' ? 'block' : 'none';
-            }
-        }
     </script>
 </body>
 </html>

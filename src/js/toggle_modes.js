@@ -112,3 +112,10 @@ function loadTheme() {
     }
     return localStorage.getItem('theme') || 'light';
 }
+
+function toggleAppearance() {
+    const themeOptions = document.getElementById('themeOptions');
+    if (themeOptions) {
+        themeOptions.style.display = themeOptions.style.display === 'none' ? 'block' : 'none';
+    }
+}

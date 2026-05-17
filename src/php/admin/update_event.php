@@ -1,5 +1,5 @@
 <?php
-require_once('../database/db_con.php');
+require_once('../../database/db_con.php');
 session_start();
 header('Content-Type: application/json');
 
@@ -28,7 +28,7 @@ $photoPath = null;
 // Handle photo upload if provided
 if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['eventPhoto'];
-    $uploadDir = __DIR__ . '/../uploads/event_photos/';
+    $uploadDir = __DIR__ . '/../../uploads/event_photos/';
     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $newFileName = 'event_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
     $targetPath = $uploadDir . $newFileName;

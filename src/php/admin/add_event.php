@@ -1,22 +1,17 @@
 <?php
-
-// Include database connection
-require_once('../database/db_con.php');
+require_once('../../database/db_con.php');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Set header to return JSON
 header('Content-Type: application/json');
 
-// Check if request is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit;
 }
 
-// Get the form data
 $eventName = trim($_POST['eventName'] ?? '');
 $category = trim($_POST['eventCategory'] ?? '');
 $location = trim($_POST['eventLocation'] ?? '');
@@ -25,7 +20,6 @@ $date = $_POST['eventDate'] ?? '';
 $time = $_POST['eventTime'] ?? '';
 $volunteersNeeded = (int)($_POST['volunteersNeeded'] ?? 0);
 $photoPath = null;
-
 $createdBy = $_SESSION['user_id'] ?? null;
 
 if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ERR_OK) {
@@ -36,7 +30,7 @@ if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ER
             die('Only JPG, PNG, GIF and WebP images are allowed.');
         }
 
-        $uploadDir = __DIR__ . '/../uploads/event_photos/';
+        $uploadDir = __DIR__ . '/../../uploads/event_photos/';
         
         $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $newFileName = 'event_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
@@ -50,8 +44,12 @@ if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ER
         }
 }
 
+if(!$time)
+    {
+        $time = '10:00:00';
+    }
+
 try {
-    // Prepare the SQL statement
     $sql = "INSERT INTO events (category, ename, description, date, time, venue, volunteers_needed, created_by, photo) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -76,7 +74,6 @@ try {
         $photoPath
     );
 
-    // Execute the statement
     if ($stmt->execute()) {
         echo json_encode([
             'success' => true, 

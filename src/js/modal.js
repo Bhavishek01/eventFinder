@@ -54,9 +54,6 @@ function openModal(htmlPath, modalId, onReady) {
         });
 }
 
-/**
- * Close any modal by id
- */
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -69,7 +66,7 @@ function closeModal(modalId) {
 // ─── Create Event Modal ────────────────────────────────────────────────────
 
 function openCreateEventModal() {
-    openModal('../frontends/create_event.html', 'createEventModal', function(modal) {
+    openModal('../../frontends/create_event.html', 'createEventModal', function(modal) {
         attachCreateEventFormEvents(modal);
         attachModalCloseEvents(modal, 'createEventModal');
     });
@@ -110,7 +107,7 @@ async function handleFormSubmit(e) {
     
     try {
         // Send data to PHP backend
-        const response = await fetch('../php/add_event.php', {
+        const response = await fetch('../../php/admin/add_event.php', {
             method: 'POST',
             body: formData
         });

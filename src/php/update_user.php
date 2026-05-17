@@ -12,6 +12,8 @@ $user_id = (int)$_POST['user_id'];
 $uname   = trim($_POST['uname'] ?? '');
 $phone   = trim($_POST['phone'] ?? '');
 $address = trim($_POST['address'] ?? '');
+$email   = trim($_POST['email'] ?? '');
+$role    = trim($_POST['role'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if (!$user_id || empty($uname)) {
@@ -35,14 +37,26 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
 try {
-    $sql = "UPDATE users SET uname = ?, phone = ?, address = ?";
+    $sql = "UPDATE users SET uname = ?, phone = ?, address = ? ";
     $types = "sss";
     $params = [$uname, $phone, $address];
 
+
     if (!empty($password)) {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
         $sql .= ", password = ?";
-        $params[] = $hashed;
+        $params[] = $password;
+        $types .= "s";
+    }
+
+    if (!empty($email)) {
+        $sql .= ", email = ?";
+        $params[] = $email;
+        $types .= "s";
+    }
+
+    if (!empty($role)) {
+        $sql .= ", role = ?";
+        $params[] = $role;
         $types .= "s";
     }
 

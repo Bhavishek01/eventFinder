@@ -32,9 +32,9 @@ try {
     $_SESSION['user_photo'] = $user['photo'] ? $user['photo'] : 'uploads/profile_photos/default.jpg';
 
     if ($_SESSION['user_role'] === 'admin') {
-        header('Location: ../frontends/admin_homepage.html');
+        header('Location: ../frontends/admin/admin_homepage.html');
     } else {
-        header('Location: ../frontends/student_homepage.html');
+        header('Location: ../frontends/student/student_homepage.html');
     }
     exit;
 } catch (Throwable $e) {

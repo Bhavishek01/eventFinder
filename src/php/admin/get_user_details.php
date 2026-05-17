@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../database/db_con.php';
+require_once '../../database/db_con.php';
 
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     http_response_code(403);
@@ -15,12 +15,18 @@ if (!$user_id) {
     echo json_encode(['error' => 'Invalid user ID']);
     exit;
 }
-
-$stmt = $conn->prepare("SELECT user_id, uname, email, role, phone, address, photo 
-                       FROM users WHERE user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+try{
+    $stmt = $conn->prepare("SELECT user_id, uname, email, role, phone, address, photo 
+                           FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Internal server error']);
+    exit;
+}
 $user = $result->fetch_assoc();
 
 if ($user) {

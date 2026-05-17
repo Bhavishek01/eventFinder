@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2026 at 01:58 PM
+-- Generation Time: May 17, 2026 at 10:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,7 +62,31 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_requests`
+--
+
+CREATE TABLE `event_requests` (
+  `request_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `student_name` varchar(150) NOT NULL,
+  `ename` varchar(150) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `venue` varchar(255) NOT NULL,
+  `volunteers_needed` int(11) DEFAULT 0,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `feedback`
+--
 
 CREATE TABLE `feedback` (
   `feedback_id` int(11) NOT NULL,
@@ -81,51 +105,45 @@ CREATE TABLE `feedback` (
 
 CREATE TABLE `found_items` (
   `found_item_id` int(11) NOT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  `reported_by` int(11) NOT NULL,
+  `reported_by` varchar(150) NOT NULL,
   `item_name` varchar(150) NOT NULL,
   `description` text NOT NULL,
-  `found_location` varchar(255) DEFAULT NULL,
+  `found_location` varchar(255) NOT NULL,
   `item_photo` varchar(255) DEFAULT NULL,
   `found_date` date NOT NULL,
+  `status` enum('available','claimed') DEFAULT 'available',
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `item_claim_requests`
---
-
-CREATE TABLE `item_claim_requests` (
-  `claim_id` int(11) NOT NULL,
-  `found_item_id` int(11) NOT NULL,
-  `claimed_by` int(11) NOT NULL,
-  `claim_message` text DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  `claimed_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
 --
 -- Table structure for table `lost_items`
 --
 
 CREATE TABLE `lost_items` (
   `lost_item_id` int(11) NOT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  `reported_by` int(11) NOT NULL,
+  `reported_by` varchar(150) NOT NULL,
   `item_name` varchar(150) NOT NULL,
   `description` text NOT NULL,
-  `lost_location` varchar(255) DEFAULT NULL,
+  `lost_location` varchar(255) NOT NULL,
   `item_photo` varchar(255) DEFAULT NULL,
   `lost_date` date NOT NULL,
+  `status` enum('open','matched','returned') DEFAULT 'open',
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
+--
+--
+-- Table structure for table `notices`
+--
+
+CREATE TABLE `notices` (
+  `notice_id` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `created_by` varchar(150) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `participators`
@@ -157,8 +175,11 @@ CREATE TABLE `users` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--
--
+--
+-- Indexes for dumped tables
+--
+
+--
 -- Indexes for table `complaints`
 --
 ALTER TABLE `complaints`
@@ -176,6 +197,13 @@ ALTER TABLE `events`
   ADD KEY `updated_by` (`updated_by`);
 
 --
+-- Indexes for table `event_requests`
+--
+ALTER TABLE `event_requests`
+  ADD PRIMARY KEY (`request_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
@@ -187,26 +215,19 @@ ALTER TABLE `feedback`
 -- Indexes for table `found_items`
 --
 ALTER TABLE `found_items`
-  ADD PRIMARY KEY (`found_item_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `reported_by` (`reported_by`);
-
---
--- Indexes for table `item_claim_requests`
---
-ALTER TABLE `item_claim_requests`
-  ADD PRIMARY KEY (`claim_id`),
-  ADD KEY `found_item_id` (`found_item_id`),
-  ADD KEY `claimed_by` (`claimed_by`),
-  ADD KEY `approved_by` (`approved_by`);
+  ADD PRIMARY KEY (`found_item_id`);
 
 --
 -- Indexes for table `lost_items`
 --
 ALTER TABLE `lost_items`
-  ADD PRIMARY KEY (`lost_item_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `reported_by` (`reported_by`);
+  ADD PRIMARY KEY (`lost_item_id`);
+
+--
+-- Indexes for table `notices`
+--
+ALTER TABLE `notices`
+  ADD PRIMARY KEY (`notice_id`);
 
 --
 -- Indexes for table `participators`
@@ -237,7 +258,13 @@ ALTER TABLE `complaints`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `event_requests`
+--
+ALTER TABLE `event_requests`
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -249,25 +276,25 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `found_items`
 --
 ALTER TABLE `found_items`
-  MODIFY `found_item_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `item_claim_requests`
---
-ALTER TABLE `item_claim_requests`
-  MODIFY `claim_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `found_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `lost_items`
 --
 ALTER TABLE `lost_items`
-  MODIFY `lost_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `lost_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `notices`
+--
+ALTER TABLE `notices`
+  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `participators`
 --
 ALTER TABLE `participators`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -295,33 +322,17 @@ ALTER TABLE `events`
   ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `event_requests`
+--
+ALTER TABLE `event_requests`
+  ADD CONSTRAINT `event_requests_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `found_items`
---
-ALTER TABLE `found_items`
-  ADD CONSTRAINT `found_items_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `found_items_ibfk_2` FOREIGN KEY (`reported_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `item_claim_requests`
---
-ALTER TABLE `item_claim_requests`
-  ADD CONSTRAINT `item_claim_requests_ibfk_1` FOREIGN KEY (`found_item_id`) REFERENCES `found_items` (`found_item_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_claim_requests_ibfk_2` FOREIGN KEY (`claimed_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_claim_requests_ibfk_3` FOREIGN KEY (`approved_by`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
-
---
--- Constraints for table `lost_items`
---
-ALTER TABLE `lost_items`
-  ADD CONSTRAINT `lost_items_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `lost_items_ibfk_2` FOREIGN KEY (`reported_by`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `participators`

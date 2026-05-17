@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../database/db_con.php';
+require_once '../../database/db_con.php';
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode([]);
@@ -9,10 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT e.*, p.status, p.p_type 
-        FROM participators p 
+$sql = "SELECT e.* FROM participators p 
         JOIN events e ON p.event_id = e.event_id 
-        WHERE p.user_id = ? 
+        WHERE p.user_id = ? AND e.date <= CURDATE() 
         ORDER BY e.date DESC";
 
 $stmt = $conn->prepare($sql);
