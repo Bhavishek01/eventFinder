@@ -81,40 +81,60 @@
         <div class="container">
             <h2 class="section-title">Student Dashboard</h2>
             <div class="dashboard-grid">
+                <!-- Events Participated -->
                 <article class="dashboard-card">
                     <h3>Events Participated</h3>
                     <p class="dashboard-value">04</p>
                     <p>Total events you have attended so far.</p>
+                    <button class="btn btn-action" onclick="openStudentListModal('participated')">View</button>
                 </article>
+
+                <!-- Items Reported -->
                 <article class="dashboard-card">
                     <h3>Items Reported</h3>
                     <p class="dashboard-value">02</p>
                     <p>Lost and found reports submitted by you.</p>
+                    <button class="btn btn-action" onclick="openStudentListModal('items_reported')">View / Report</button>
                 </article>
+
+                <!-- Complaints -->
                 <article class="dashboard-card">
                     <h3>Complaints</h3>
                     <p class="dashboard-value">01 Open</p>
                     <p>Status of issue reports submitted for events.</p>
+                    <button class="btn btn-action" onclick="openStudentListModal('complaints')">View</button>
                 </article>
+
+                <!-- Feedback -->
                 <article class="dashboard-card">
                     <h3>Feedback</h3>
                     <p class="dashboard-value">03 Given</p>
                     <p>Number of event feedback entries shared by you.</p>
+                    <button class="btn btn-action" onclick="openStudentListModal('feedback')">View</button>
                 </article>
+
+                <!-- My Registrations -->
                 <article class="dashboard-card">
                     <h3>My Registrations</h3>
                     <p class="dashboard-value">05 Active</p>
                     <p>Current event registrations waiting for participation.</p>
+                    <button class="btn btn-action" onclick="openStudentListModal('registrations')">View</button>
                 </article>
+
+                <!-- Profile Status -->
                 <article class="dashboard-card">
                     <h3>Profile Status</h3>
                     <p class="dashboard-value">80% Complete</p>
                     <p>Complete your profile to improve recommendations.</p>
+                    <button class="btn btn-action" onclick="openEditProfileModal()">Edit Profile</button>
                 </article>
+
+                <!-- Request Event -->
                 <article class="dashboard-card">
                     <h3>Request Events</h3>
-                    <p class="dashboard-value">80% Complete</p>
-                    <p>Complete your profile to improve recommendations.</p>
+                    <p class="dashboard-value">New</p>
+                    <p>Propose new events for approval.</p>
+                    <button class="btn btn-action" onclick="openRequestEventModal()">Request Event</button>
                 </article>
             </div>
         </div>

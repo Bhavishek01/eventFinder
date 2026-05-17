@@ -4,26 +4,24 @@ session_start();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit;
 }
 
 $user_id = (int)$_POST['user_id'];
-$uname = trim($_POST['uname'] ?? '');
-$email = trim($_POST['email'] ?? '');
-$phone = trim($_POST['phone'] ?? '');
+$uname   = trim($_POST['uname'] ?? '');
+$phone   = trim($_POST['phone'] ?? '');
 $address = trim($_POST['address'] ?? '');
-$role = trim($_POST['role'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if (!$user_id || empty($uname) || empty($email)) {
-    echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+if (!$user_id || empty($uname)) {
+    echo json_encode(['success' => false, 'message' => 'Missing required fields (Name is required)']);
     exit;
 }
 
 $photoPath = null;
 
-// Handle photo upload
+// Handle photo upload if provided
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['photo'];
     $uploadDir = __DIR__ . '/../uploads/profile_photos/';
@@ -37,24 +35,24 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
 try {
-    $sql = "UPDATE users SET uname=?, email=?, phone=?, address=?, role=?";
-    $params = [$uname, $email, $phone, $address, $role];
-    $types = "sssss";
+    $sql = "UPDATE users SET uname = ?, phone = ?, address = ?";
+    $types = "sss";
+    $params = [$uname, $phone, $address];
 
     if (!empty($password)) {
-        
-        $sql .= ", password=?";
-        $params[] = $password;
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $sql .= ", password = ?";
+        $params[] = $hashed;
         $types .= "s";
     }
 
     if ($photoPath) {
-        $sql .= ", photo=?";
+        $sql .= ", photo = ?";
         $params[] = $photoPath;
         $types .= "s";
     }
 
-    $sql .= " WHERE user_id=?";
+    $sql .= " WHERE user_id = ?";
     $params[] = $user_id;
     $types .= "i";
 
@@ -62,12 +60,12 @@ try {
     $stmt->bind_param($types, ...$params);
 
     if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'User updated successfully']);
+        echo json_encode(['success' => true, 'message' => 'Profile updated successfully!']);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Update failed']);
+        echo json_encode(['success' => false, 'message' => 'Database update failed']);
     }
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Server error']);
+    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }
 
 $stmt->close();

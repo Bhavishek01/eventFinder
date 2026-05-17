@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply Complaint</title>
+    <link rel="stylesheet" href="../css/modal.css">
+</head>
+<body>
+    <div id="replyComplaintModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2>Reply to Complaint</h2>
+                <span class="close" onclick="closeReplyComplaintModal()">✕</span>
+            </div>
+            
+            <div id="complaintDetails"></div>
+            
+            <form id="replyComplaintForm">
+                <input type="hidden" id="complaintId" name="complaint_id">
+                
+                <div class="form-group">
+                    <label for="replyText">Your Reply</label>
+                    <textarea id="replyText" name="reply" rows="6" required placeholder="Write your response to the student..."></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-action">Send Reply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function closeReplyComplaintModal() {
+            closeModal('replyComplaintModal');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <link rel="stylesheet" href="../css/modal.css">
+    <style>
+        .student-list-search {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .student-list-container {
+            max-height: 65vh;
+            overflow-y: auto;
+        }
+        .student-list-item {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .student-list-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="studentListModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2 id="studentListTitle">My Events</h2>
+                <span class="close" onclick="closeStudentListModal()">✕</span>
+            </div>
+            
+            <input type="text" id="studentListSearch" class="student-list-search" 
+                   placeholder="Search..." onkeyup="filterStudentList()">
+
+            <div class="student-list-container" id="studentListContent">
+                <p style="text-align:center; padding:40px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeStudentListModal() {
+            closeModal('studentListModal');
+        }
+    </script>
+</body>
+</html>
