@@ -60,6 +60,55 @@ body {
     position: relative;
 }
 
+/* For Admin List */
+.admin-list-item {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-list-item:last-child {
+    border-bottom: none;
+}
+
+/* For Student List */
+.student-list-item {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.student-list-item:last-child {
+    border-bottom: none;
+}
+
+/* Make info take available space */
+.list-info{
+    flex: 1;
+}
+
+.ok_btn {
+    background: var(--green-light);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+.ok_btn:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(24, 68, 48, 0.25);
+}
+
+
 .modal-content-large {
     width: min(760px, 98%);
 }

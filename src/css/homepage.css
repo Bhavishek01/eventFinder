@@ -306,6 +306,54 @@ body {
     padding: 20px 0 0 0;
 }
 
+/* Upcoming Events Grid - 2 cards per row */
+.events-grid-new {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); /* Forces 2 cards */
+}
+
+.event-card-new {
+    background: var(--white);
+    border: 1px solid rgba(24, 68, 48, 0.13);
+    border-radius: 12px;
+    box-shadow: 0 9px 24px rgba(0, 0, 0, 0.09);
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card-new:hover {
+    background: var(--light-bg);
+    box-shadow: 0 6px 14px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Card Header with Background Photo */
+.event-card-new-header {
+    position: relative;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.event-card-new-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+}
+
+.event-card-new-header h3,
+.event-card-new-header .event-category,
+.event-card-new-header .event-card-date {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+}
+
 .events-grid {
     display: grid;
     gap: 18px;
@@ -582,6 +630,7 @@ body.dark-mode {
 
 body.dark-mode .navbar,
 body.dark-mode .event-card,
+body.dark-mode .event-card-new,
 body.dark-mode .modal-content,
 body.dark-mode .dropdown-menu {
     background: rgba(74, 66, 58, 0.9);
@@ -596,6 +645,7 @@ body.dark-mode .dashboard-card {
 body.dark-mode .logo h2,
 body.dark-mode .header h1,
 body.dark-mode .section-title,
+body.dark-mode .event-card-new-header,
 body.dark-mode .event-card-header h3,
 body.dark-mode .modal-content h2,
 body.dark-mode .event-description h3,

@@ -119,6 +119,9 @@ async function loadStudentListData(type) {
         case 'items_reported':
             url = '../../php/student/get_past_participated_events.php';
             break;
+        case 'admin_replies':
+            url = '../../php/student/get_admin_replies.php';
+            break;
         default:
             contentDiv.innerHTML = '<p>Unknown list type.</p>';
             return;
@@ -182,8 +185,11 @@ function renderStudentList(data, type) {
 
         html += `
             <div class="student-list-item">
-                ${info}
-                <button class="btn btn-action" onclick="${onclick}">${buttonText}</button>
+                <div>
+                    <h4>${item.ename}</h4>
+                    <p>${item.date} | ${item.category || ''} | ${item.venue || ''}</p>
+                </div>
+                <button class="ok_btn" onclick="${onclick}">${buttonText}</button>
             </div>`;
     });
 

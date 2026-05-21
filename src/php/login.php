@@ -14,7 +14,6 @@ try {
     $stmt->close();
 
     if (!$user || $user['password'] !== $password) {
-        $error = "Invalid email or password. Please try again.";
         $_SESSION['login_error'] = $error;
         header('Location: ../frontends/login.html?error=1');
         exit;

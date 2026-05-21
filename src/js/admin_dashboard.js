@@ -30,8 +30,10 @@ async function loadListData(type) {
             break;
         case 'complaints':
         case 'feedback':
-        case 'items_reported':
             url = '../../php/admin/get_all_events.php';
+            break;
+        case 'items_reported':
+            url = '../../php/admin/get_reported_items.php';
             break;
         case 'event_requests':
             url = '../../php/admin/get_event_requests.php';
@@ -64,7 +66,6 @@ function renderAdminList(data, type) {
     const contentDiv = document.getElementById('adminListContent');
     const titleEl = document.getElementById('listModalTitle');
 
-    // Set dynamic title
     const titles = {
         'edit_event': 'Edit Events',
         'total_events': 'All Events',
@@ -111,46 +112,61 @@ function renderAdminList(data, type) {
                 buttonText = type === 'edit_users' ? 'Edit' : 'View';
                 onclick = `viewUserInList(${item.user_id}, '${type}')`;
                 break;
+
             case 'complaints':
-            case 'feedback':
+                const compCount = parseInt(item.complaint_count) || 0;
                 infoHTML = `
                     <div class="list-info">
                         <h4>${item.ename}</h4>
-                        <p>${item.date}</p>
+                        <p>${compCount} complaint(s) | ${item.date}</p>
                     </div>`;
-                buttonText = type === 'complaints' ? 'View Complaint' : 'View';
-                onclick = `viewEventInList(${item.event_id}, '${type}')`;
+                buttonText = compCount > 0 ? 'View Complaints' : 'No Complaints';
+                onclick = compCount > 0 ? `viewEventComplaints(${item.event_id})` : `alert('No complaints for this event yet.')`;
+                break;
+
+            case 'feedback':
+                const feedCount = parseInt(item.feedback_count) || 0;
+                infoHTML = `
+                    <div class="list-info">
+                        <h4>${item.ename}</h4>
+                        <p>${feedCount} feedback(s) | ${item.date}</p>
+                    </div>`;
+                buttonText = feedCount > 0 ? 'View Feedback' : 'No Feedback';
+                onclick = feedCount > 0 ? `viewEventFeedback(${item.event_id})` : `alert('No feedback for this event yet.')`;
                 break;
 
             case 'items_reported':
+                const itemType = item.item_type === 'lost' ? '🔴 Lost' : '🟢 Found';
                 infoHTML = `
                     <div class="list-info">
-                        <h4>${item.ename}</h4>
-                        <p>${item.date}</p>
+                        <h4>${item.item_name}</h4>
+                        <p><strong>${itemType}</strong> • ${item.report_date} | ${item.location}</p>
                     </div>`;
-                buttonText = 'View Reported Item';
-                onclick = `viewEventInList(${item.event_id}, '${type}')`;
+                buttonText = 'View Details';
+                onclick = `viewReportedItem(${item.id}, '${item.item_type}')`;
                 break;
+
             case 'event_requests':
                 infoHTML = `
                     <div class="list-info">
                         <h4>${item.ename}</h4>
-                        <p>${item.date}</p>
+                        <p>Status: <strong>${item.status}</strong></p>
                     </div>`;
-                buttonText = 'View Event Request';
-                onclick = `viewEventInList(${item.request_id}, '${type}')`;
+                buttonText = 'View';
+                onclick = `viewEventRequest(${item.request_id})`;
                 break;
 
-            // We will implement others in later steps
             default:
-                infoHTML = `<div class="list-info"><h4>Item ID: ${item.id || 'N/A'}</h4></div>`;
+                infoHTML = `<div class="list-info"><h4>Item</h4></div>`;
                 onclick = `alert('Not implemented yet')`;
         }
 
         html += `
             <div class="admin-list-item">
-                ${infoHTML}
-                <button class="btn btn-action" onclick="${onclick}">${buttonText}</button>
+                <div class="list-info">
+                    ${infoHTML}
+                </div>
+                <button class="ok_btn" onclick="${onclick}">${buttonText}</button>
             </div>`;
     });
 
@@ -202,6 +218,122 @@ function viewEventInList(eventId, type) {
     }
     else {
         alert(`Not implemented yet for type: ${type}`);
+    }
+}
+
+// ====================== VIEW REPORTED ITEM DETAILS ======================
+
+function viewReportedItem(itemId, itemType) {
+    closeModal('adminListModal');
+
+    openModal('../../frontends/admin/reported_item_details.html', 'reportedItemDetailsModal', function(modal) {
+        loadReportedItemDetails(itemId, itemType, modal);
+    });
+}
+
+async function loadReportedItemDetails(itemId, itemType, modal) {
+    const contentDiv = modal.querySelector('#itemDetailsContent');
+    contentDiv.innerHTML = '<p>Loading item details...</p>';
+
+    try {
+        const res = await fetch(`../../php/admin/get_reported_item_detail.php?item_id=${itemId}&type=${itemType}`);
+        const item = await res.json();
+
+        if (item.error) {
+            contentDiv.innerHTML = `<p style="color:red;">${item.error}</p>`;
+            return;
+        }
+
+        const photoPath = item.item_photo 
+            ? '../../' + item.item_photo 
+            : '../../uploads/item_photos/default.jpg';
+
+        const html = `
+            <div class="event-photo">
+                <img src="${photoPath}" alt="${item.item_name}" 
+                     style="width:100%; height:280px; object-fit:cover; border-radius:8px;">
+            </div>
+
+            <div class="event-details">
+                <h2>${item.item_name}</h2>
+                <p><strong>Type:</strong> ${itemType.toUpperCase()}</p>
+
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <strong>Reported By</strong>
+                        <span>${item.reported_by || 'Unknown'}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Date</strong>
+                        <span>${item.report_date || item.lost_date || item.found_date}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Location</strong>
+                        <span>${item.location || item.lost_location || item.found_location}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Status</strong>
+                        <span>${item.status || 'Open'}</span>
+                    </div>
+                </div>
+
+                <div class="event-description">
+                    <h3>Description</h3>
+                    <p>${item.description}</p>
+                </div>
+
+                <div class="status-option" style="margin-bottom:20px; border-radius:8px;">
+                    <label for="newStatus" style="font-weight:bold;">Update Status:</label>
+                    <select id="newStatus" class="form-control">
+                        <option value="open">Open</option>
+                        <option value="matched">Matched</option>
+                        <option value="claimed">Claimed</option>
+                        <option value="returned">Returned</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-action" onclick="handleUpdateStatus(${itemId}, '${itemType}')">Update Status</button>
+            </div>
+        `;
+
+        contentDiv.innerHTML = html;
+
+    } catch (err) {
+        console.error(err);
+        contentDiv.innerHTML = `<p style="color:red;">Failed to load item details.</p>`;
+    }
+}
+
+async function handleUpdateStatus(itemId, itemType) {
+
+    const statusSelect = document.getElementById('newStatus');
+    const newStatus = statusSelect.value;
+
+    if (!confirm(`Change status to "${newStatus}"?`)) return;
+
+    try {
+        const response = await fetch(`../../php/admin/update_item_status.php?item_id=${itemId}&type=${itemType}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                item_id: itemId,
+                item_type: itemType,
+                status: newStatus
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert(`✅ Status updated to "${newStatus}" successfully!`);
+            // Refresh the modal to show updated status
+            loadReportedItemDetails(itemId, itemType, modal);
+        } else {
+            alert('❌ ' + (data.message || 'Failed to update status'));
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Network error. Please try again.');
     }
 }
 
@@ -533,7 +665,7 @@ async function handleEditEventSubmit(e) {
     }
 }
 
-// ====================== ADMIN FEEDBACK (Two Level) ======================
+// ====================== ADMIN FEEDBACK ======================
 
 function viewEventFeedback(eventId) {
     closeModal('adminListModal');   // Close main list

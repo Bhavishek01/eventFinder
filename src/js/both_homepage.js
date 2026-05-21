@@ -4,22 +4,30 @@ function loadUpcomingEvents() {
         .then(events => {
             const grid = document.getElementById('eventsGrid');
             if (!grid) return;
-            grid.innerHTML = events.map(event => `
-                <div class="event-card">
-                    <div class="event-card-header">
-                        <h3>${event.ename}</h3>
-                        <span class="event-category">${event.category ? event.category.charAt(0).toUpperCase() + event.category.slice(1) : 'N/A'}</span>
-                        <span class="event-card-date">${event.date}</span>
+
+            grid.innerHTML = events.map(event => {
+                const photoPath = event.photo 
+                    ? '../../' + event.photo 
+                    : '';
+
+                return `
+                    <div class="event-card-new">
+                        <div class="event-card-header" ${photoPath ? `style="background-image: url('${photoPath}'); border-radius: 5px;"` : '' }>
+                            <h3>${event.ename}</h3>
+                            <span class="event-category">${event.category ? event.category.charAt(0).toUpperCase() + event.category.slice(1) : 'N/A'}</span>
+                            <span class="event-card-date">${event.date}</span>
+                        </div>
+                        <div class="event-card-body">
+                            <p>${event.description.substring(0, 100)}…</p>
+                        </div>
+                        <div class="event-card-footer">
+                            <button class="btn btn-more" onclick="viewEventDetails(${event.event_id})">View Details</button>
+                        </div>
                     </div>
-                    <div class="event-card-body">
-                        <p>${event.description.substring(0, 100)}…</p>
-                    </div>
-                    <div class="event-card-footer">
-                        <button class="btn btn-more" onclick="viewEventDetails(${event.event_id})">View Details</button>
-                    </div>
-                </div>
-            `).join('');
-        });
+                `;
+            }).join('');
+        })
+        .catch(err => console.error(err));
 }
 
 function loadRecentEvents() {
