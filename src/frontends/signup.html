@@ -20,57 +20,71 @@
         <p>Create your account</p>
 
         <form id="signupForm" action="../php/signup.php" method="post" enctype="multipart/form-data">
+
+            <!-- Full Name -->
             <div class="form-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                <p class="field-feedback" data-feedback="fullname"></p>
             </div>
 
+            <!-- Email -->
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <p class="field-feedback" data-feedback="email"></p>
             </div>
 
+            <!-- Address + Phone -->
             <div class="phone-photo-group">
                 <div class="form-group photo-field">
                     <label for="address">Address</label>
-                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                    <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                    <p class="field-feedback" data-feedback="address"></p>
                 </div>
                 <div class="form-group phone-field">
                     <label for="phone">Phone Number</label>
                     <input type="tel" id="phone" name="phone" placeholder="98/7XXXXXX" required>
+                    <p class="field-feedback" data-feedback="phone"></p>
                 </div>
             </div>
 
+            <!-- Photo (optional) -->
             <div class="form-group">
-                <label for="photo">Photo</label>
+                <label for="photo">Photo <span style="font-weight:400;font-size:.8rem;color:#888">(optional)</span></label>
                 <input type="file" id="photo" name="photo" accept="image/*">
             </div>
 
+            <!-- Password -->
             <div class="form-group password-group">
                 <label for="password">Password</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" name="password" placeholder="Create a password" required>
                     <i class="fa-solid fa-eye-slash toggle-password" id="toggleSignupPassword"></i>
                 </div>
+                <p class="field-feedback" data-feedback="password"></p>
             </div>
 
+            <!-- Confirm Password -->
             <div class="form-group password-group">
                 <label for="confirm-password">Confirm Password</label>
                 <div class="password-wrapper">
                     <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
                     <i class="fa-solid fa-eye-slash toggle-password" id="toggleConfirmPassword"></i>
                 </div>
+                <p class="field-feedback" data-feedback="confirm-password"></p>
             </div>
 
-            <button type="submit" class="btn">Sign Up</button>
+            <!-- Submit — disabled until all fields valid -->
+            <button type="submit" id="signupSubmitBtn" class="btn" disabled>Sign Up</button>
         </form>
 
         <p class="signup-link">
             Already have an account? <a href="login.html">Sign in</a>
         </p>
     </div>
+
     <script src="../js/toggle_modes.js"></script>
-    <script src="../js/validation.js"></script>
-     
+    <script src="../js/valid1.js"></script>
 </body>
 </html>

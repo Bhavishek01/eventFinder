@@ -13,7 +13,6 @@ function isValidCollegeEmail(email) {
     return emailRegex.test(email);
 }
 
-
 function isValidPassword(password) {
     return passwordRegex.test(password);
 }
@@ -78,12 +77,6 @@ function handleSignupSubmit(event) {
         alert("Please enter your full name");
         return false;
     }
-
-    if (!isValidCollegeEmail(email)) {
-        event.preventDefault();
-        window.location.href = 'non-college-signup.html';
-        return false;
-    }
         
     if (!address) {
         event.preventDefault();
@@ -107,12 +100,18 @@ function handleSignupSubmit(event) {
         alert("Passwords do not match");
         return false;
     }
+
+    if (!isValidCollegeEmail(email)) {
+        event.preventDefault();
+        const proceed = confirm("Do you want to proceed with a non-college email?");
+        if (proceed) {
+            location.href = "non_college_signup.html";
+        }
+        return false;
+    }
     return true;
 }
 
-/**
- * Toggle password visibility
- */
 function togglePasswordVisibility(inputId, iconId) {
     const inputField = document.getElementById(inputId);
     const toggleIcon = document.getElementById(iconId);

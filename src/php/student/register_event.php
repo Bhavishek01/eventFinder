@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-require_once '../database/db_con.php';
+require_once '../../database/db_con.php';
 
 // Get JSON data
 $data = json_decode(file_get_contents('php://input'), true);

@@ -244,6 +244,30 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBackdropClickHandler();
 });
 
+function registerForEvent(eventId, pType) {
+    fetch('../../php/student/register_event.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event_id: eventId, p_type: pType })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(`Successfully registered as ${pType} for this event!`);
+            // closeModal() is provided by modal.js
+            closeModal('eventDetailsModal');
+            if (typeof loadUpcomingEvents === 'function') loadUpcomingEvents();
+            if (typeof loadRecentEvents   === 'function') loadRecentEvents();
+        } else {
+            alert('Error: ' + (data.message || 'Failed to register for event'));
+        }
+    })
+    .catch(error => {
+        console.error('Registration error:', error);
+        alert('Network error: Could not register for event. Please try again.');
+    });
+}
+
 // ── window.onclick: delegate to modal.js for event-details, keep rest ─────
 window.onclick = function(event) {
     const loginModal   = document.getElementById('loginModal');

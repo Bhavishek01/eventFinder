@@ -77,7 +77,7 @@ try {
 
     $insertStmt->close();
 
-    header('Location: ../frontends/student_homepage.html');
+    header('Location: ../frontends/student/student_homepage.html');
     exit;
 
 } catch (Throwable $e) {

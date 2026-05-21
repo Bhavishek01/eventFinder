@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Feedback</title>
+    <link rel="stylesheet" href="../../css/modal.css">
+    <style>
+        .feedback-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+        .rating-stars {
+            color: #f8c894;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="adminFeedbackListModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2 id="feedbackEventTitle">Feedback</h2>
+                <span class="close" onclick="closeModal('adminFeedbackListModal')">✕</span>
+            </div>
+            
+            <div id="feedbackListContent">
+                <!-- JS will load here -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

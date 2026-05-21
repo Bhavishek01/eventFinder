@@ -1,5 +1,5 @@
 <?php
-require_once('../database/db_con.php');
+require_once '../../database/db_con.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -12,7 +12,7 @@ if (!$complaint_id || empty($reply) || !$replied_by) {
     exit;
 }
 
-$stmt = $conn->prepare("UPDATE complaints SET reply=?, replied_by=?, replied_at=NOW() WHERE complaint_id=?");
+$stmt = $conn->prepare("UPDATE complaints SET reply = ?, replied_by = ?, replied_at = NOW() WHERE complaint_id = ?");
 $stmt->bind_param("sii", $reply, $replied_by, $complaint_id);
 
 if ($stmt->execute()) {

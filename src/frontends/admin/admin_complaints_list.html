@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Complaints</title>
+    <link rel="stylesheet" href="../../css/modal.css">
+    <style>
+        .admin-list-item { padding: 15px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div id="adminComplaintsListModal" class="modal modal-large show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2 id="complaintsEventTitle">Complaints</h2>
+                <span class="close" onclick="closeModal('adminComplaintsListModal')">✕</span>
+            </div>
+            
+            <div id="complaintsListContent">
+                <!-- Dynamic content loaded by JS -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
