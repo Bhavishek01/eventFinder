@@ -23,6 +23,12 @@ $description = trim($_POST['description'] ?? '');
 $location   = trim($_POST['location']     ?? '');
 $item_type  = $_POST['item_type']         ?? '';
 
+if(!$user_name || !$item_name || !$description || !$location || !in_array($item_type, ['lost', 'found'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Missing or invalid fields']);
+    exit;
+}
+
 // FIX 2: Correct the inverted condition — fetch event date when event_id IS valid
 try {
     $sql = "SELECT date FROM events WHERE event_id = ?";

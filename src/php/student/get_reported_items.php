@@ -46,7 +46,7 @@ try {
         ORDER BY created_at DESC
     ");
     $stmtLost->execute([$uname]);
-    $lostItems = $stmtLost->get_result()->fetch_all(PDO::FETCH_ASSOC);
+    $lostItems = $stmtLost->get_result()->fetch_all(MYSQLI_ASSOC);
 
     // Found items reported by this user
     $stmtFound = $conn->prepare("
@@ -65,7 +65,7 @@ try {
         ORDER BY created_at DESC
     ");
     $stmtFound->execute([$uname]);
-    $foundItems = $stmtFound->get_result()->fetch_all(PDO::FETCH_ASSOC);
+    $foundItems = $stmtFound->get_result()->fetch_all(MYSQLI_ASSOC);
 
     // Merge and sort by created_at descending
     $all = array_merge($lostItems, $foundItems);

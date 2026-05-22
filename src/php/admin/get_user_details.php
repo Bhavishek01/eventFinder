@@ -2,12 +2,6 @@
 session_start();
 require_once '../../database/db_con.php';
 
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    http_response_code(403);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit;
-}
-
 $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
 
 if (!$user_id) {

@@ -24,14 +24,9 @@ try {
             c.reply,
             c.replied_at,
             c.created_at,
-            e.ename        AS event_name,
-            e.date         AS event_date,
-            u.uname        AS replied_by_name,
-
-            CASE
-                WHEN c.reply IS NOT NULL AND c.reply != '' THEN 'Replied'
-                ELSE 'Pending'
-            END AS status
+            e.ename,
+            e.date,
+            u.uname        
 
         FROM complaints c
         LEFT JOIN events  e ON e.event_id  = c.event_id
@@ -40,7 +35,7 @@ try {
         ORDER BY c.created_at DESC
     ");
     $stmt->execute([$userId]);
-    $rows = $stmt->get_result()->fetch_all(PDO::FETCH_ASSOC);
+    $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
     echo json_encode($rows);
 

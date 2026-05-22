@@ -22,17 +22,17 @@ try {
             f.rating,
             f.feedback,
             f.created_at,
-            e.ename      AS event_name,
-            e.date       AS event_date,
-            e.category   AS category,
-            e.venue      AS venue
+            e.ename,
+            e.date,
+            e.category,
+            e.venue
         FROM feedback f
         JOIN events e ON e.event_id = f.event_id
         WHERE f.user_id = ?
         ORDER BY f.created_at DESC
     ");
     $stmt->execute([$userId]);
-    $rows = $stmt->get_result()->fetch_all(PDO::FETCH_ASSOC);
+    $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
     echo json_encode($rows);
 

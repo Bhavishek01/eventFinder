@@ -33,11 +33,6 @@ if (isset($_FILES['eventPhoto']) && $_FILES['eventPhoto']['error'] === UPLOAD_ER
     $mimeType = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
 
-    if (!in_array($mimeType, $allowedTypes)) {
-        echo json_encode(['success' => false, 'message' => 'Only JPG, PNG, GIF and WebP images are allowed.']);
-        exit;
-    }
-
     $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $newFileName = 'event_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $fileExtension;
     $targetPath = $uploadDir . $newFileName;

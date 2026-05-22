@@ -1,329 +1,409 @@
-// ====================== STUDENT HISTORY MODAL ======================
+// ====================== HISTORY HANDLER ======================
+// Handles history modals for: Event Requests, Complaints, Feedback, Reported Items
 
-let currentHistoryType = '';
-let currentHistoryData = [];
+// ── Config: maps history type → { title, phpUrl, renderRow, renderDetail } ──
 
-const historyConfig = {
-    report: {
-        title: 'Reported Items History',
-        url: '../../php/student/get_reported_items.php',
-        empty: 'No reported items found.'
-    },
-    complaint: {
-        title: 'Complaints History',
-        url: '../../php/student/get_my_complaints.php',
-        empty: 'No complaints found.'
-    },
-    feedback: {
-        title: 'Feedback History',
-        url: '../../php/student/get_my_feedback.php',
-        empty: 'No feedback found.'
-    },
-    request: {
-        title: 'Event Requests History',
+const history_types = {
+
+    eventRequest: {
+        title: 'Event Request History',
         url: '../../php/student/get_my_event_requests.php',
-        empty: 'No event requests found.'
+        searchKey: 'event_name',
+        renderRow(item) {
+            const statusClass = {
+                pending:  'status-pending',
+                approved: 'status-approved',
+                rejected: 'status-rejected'
+            }[item.status?.toLowerCase()] || 'status-pending';
+
+            return `
+                <div class="history-item">
+                    <div class="list-info">
+                        <h4>${item.ename || 'Unnamed Event'}</h4>
+                        <p>${item.date || 'No date'} | ${(item.category) || 'N/A'}</p>
+                        <span class="history-status ${statusClass}">${(item.status) || 'Pending'}</span>
+                    </div>
+                    <button class="ok_btn" onclick="openHistoryDetail('eventRequest', ${item.request_id})">View</button>
+                </div>`;
+        },
+        renderDetail(item) {
+            const photoHTML = item.photo
+                ? `<img src="../../${item.photo}" alt="${item.ename}"
+                        onerror="this.style.display='none'"
+                        style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-bottom:12px;">`
+                : '';
+            const typeLabel = item.item_type === 'lost' ? '🔴 Lost Item' : '🟢 Found Item';
+            return `
+                <div class="history-detail">
+                    <h3>${item.ename || 'Unnamed Event'}</h3>
+                    <div class="detail-grid">
+                        <div class="detail-row"><strong>Category</strong><span>${(item.category) || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Date</strong><span>${item.date || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Time</strong><span>${item.time || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Venue</strong><span>${item.venue || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Volunteers Needed</strong><span>${item.volunteers_needed ?? 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Status</strong><span>${(item.status) || 'Pending'}</span></div>
+                        <div class="detail-row"><strong>Submitted On</strong><span>${(item.created_at)}</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <strong>Description</strong>
+                        <p>${item.description || 'No description provided.'}</p>
+                    </div>
+                </div>`;
+        }
+    },
+
+    complaint: {
+        title: 'My Complaints',
+        url: '../../php/student/get_my_complaints.php',
+        searchKey: 'subject',
+        renderRow(item) {
+            const statusClass = item.reply ? 'status-approved' : 'status-pending';
+            const statusLabel = item.reply ? 'Replied' : 'Pending';
+            return `
+                <div class="history-item">
+                    <div class="list-info">
+                        <h4>${item.subject || 'No Subject'}</h4>
+                        <p>${item.ename} | ${(item.date)}</p>
+                        <span class="history-status ${statusClass}">${statusLabel}</span>
+                    </div>
+                    <button class="ok_btn" onclick="openHistoryDetail('complaint', ${item.complaint_id})">View</button>
+                </div>`;
+        },
+        renderDetail(item) {
+            const replySection = item.reply
+                ? `<div class="detail-section reply-section">
+                        <strong>Admin Reply</strong>
+                        <p>${item.reply}</p>
+                        <small>By ${item.replied_by_name || 'Admin'} on ${(item.replied_at)}</small>
+                   </div>`
+                : `<div class="detail-section"><p style="color:#999; font-style:italic;">No reply yet.</p></div>`;
+
+            return `
+                <div class="history-detail">
+                    <h3>${item.subject || 'No Subject'}</h3>
+                    <div class="detail-grid">
+                        <div class="detail-row"><strong>Event</strong><span>${item.ename || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Event Date</strong><span>${item.date || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Submitted On</strong><span>${(item.created_at)}</span></div>
+                        <div class="detail-row"><strong>Status</strong>
+                            <span>${item.reply ? 'Replied' : 'Pending'}</span>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <strong>Your Complaint</strong>
+                        <p>${item.complaint || ''}</p>
+                    </div>
+                    ${replySection}
+                </div>`;
+        }
+    },
+
+    feedback: {
+        title: 'My Feedback',
+        url: '../../php/student/get_my_feedback.php',
+        searchKey: 'event_name',
+        renderRow(item) {
+            const stars = '★'.repeat(item.rating || 0) + '☆'.repeat(5 - (item.rating || 0));
+            return `
+                <div class="history-item">
+                    <div class="list-info">
+                        <h4>${item.ename || 'N/A'}</h4>
+                        <p>${item.date || 'N/A'} | ${item.category || 'N/A'}</p>
+                        <span class="history-stars">${stars}</span>
+                    </div>
+                    <button class="ok_btn" onclick="openHistoryDetail('feedback', ${item.feedback_id})">View</button>
+                </div>`;
+        },
+        renderDetail(item) {
+            const stars = '★'.repeat(item.rating || 0) + '☆'.repeat(5 - (item.rating || 0));
+            return `
+                <div class="history-detail">
+                    <h3>${item.ename || 'N/A'}</h3>
+                    <div class="detail-grid">
+                        <div class="detail-row"><strong>Category</strong><span>${(item.category) || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Venue</strong><span>${item.venue || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Event Date</strong><span>${item.date || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Submitted On</strong><span>${(item.created_at)}</span></div>
+                        <div class="detail-row"><strong>Rating</strong><span class="history-stars">${stars}</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <strong>Your Feedback</strong>
+                        <p>${item.feedback || 'No comments.'}</p>
+                    </div>
+                </div>`;
+        }
+    },
+
+    reportedItem: {
+        title: 'My Reported Items',
+        url: '../../php/student/get_reported_items.php',
+        searchKey: 'item_name',
+        renderRow(item) {
+            const typeClass  = item.item_type === 'lost' ? 'status-rejected' : 'status-approved';
+            const typeLabel  = item.item_type === 'lost' ? '🔴 Lost' : '🟢 Found';
+            const statusBadge = item.status
+                ? `<span class="history-status status-pending">${(item.status)}</span>`
+                : '';
+            return `
+                <div class="history-item">
+                    <div class="list-info">
+                        <h4>${item.item_name || 'Unnamed Item'}</h4>
+                        <p>${item.location || 'N/A'} | ${item.report_date || 'N/A'}</p>
+                        <span class="history-status ${typeClass}">${typeLabel}</span>
+                        ${statusBadge}
+                    </div>
+                    <button class="ok_btn" onclick="openHistoryDetail('reportedItem', ${item.item_id})">View</button>
+                </div>`;
+        },
+        renderDetail(item) {
+            const photoHTML = item.item_photo
+                ? `<img src="../../${item.item_photo}" alt="${item.item_name}"
+                        onerror="this.style.display='none'"
+                        style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-bottom:12px;">`
+                : '';
+            const typeLabel = item.item_type === 'lost' ? '🔴 Lost Item' : '🟢 Found Item';
+            return `
+                <div class="history-detail">
+                    ${photoHTML}
+                    <h3>${item.item_name || 'Unnamed Item'}</h3>
+                    <div class="detail-grid">
+                        <div class="detail-row"><strong>Type</strong><span>${typeLabel}</span></div>
+                        <div class="detail-row"><strong>Location</strong><span>${item.location || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Date</strong><span>${item.report_date || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Status</strong><span>${(item.status) || 'N/A'}</span></div>
+                        <div class="detail-row"><strong>Reported On</strong><span>${(item.created_at)}</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <strong>Description</strong>
+                        <p>${item.description || 'No description provided.'}</p>
+                    </div>
+                </div>`;
+        }
     }
 };
 
-function handleReportHistory() {
-    openHistoryModal('report');
-}
+// ── Internal state ──────────────────────────────────────────
+let _historyType = '';
+let _historyData = [];
 
-function handleComplaintHistory() {
-    openHistoryModal('complaint');
-}
-
-function handleFeedbackHistory() {
-    openHistoryModal('feedback');
-}
-
-function handleRequestHistory() {
-    openHistoryModal('request');
-}
 
 function openHistoryModal(type) {
-    currentHistoryType = type;
+    const config = history_types[type];
+    if (!config) { console.error('Unknown history type:', type); return; }
 
-    openModal('../../frontends/student/history_modal.html', 'historyModal', function(modal) {
-        attachModalCloseEvents(modal, 'historyModal');
-        loadHistoryData(type);
-    });
+    _historyType = type;
+    _historyData = [];
+
+    // Build modal HTML inline (no extra HTML file needed)
+    let modal = document.getElementById('historyListModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'historyListModal';
+        modal.className = 'modal modal-large';
+        document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2 id="historyModalTitle">${config.title}</h2>
+                <span class="close" onclick="closeModal('historyListModal')">✕</span>
+            </div>
+            <input type="text" id="historySearchInput" class="student-list-search"
+                   placeholder="Search..." oninput="filterHistoryList()" 
+                   style="width:100%; padding:10px 12px; margin-bottom:16px; border:1.5px solid #ddd; border-radius:6px; font-size:0.95rem; font-family:inherit; background:var(--light-bg);">
+            <div id="historyListContent" style="max-height:65vh; overflow-y:auto;">
+                <p style="text-align:center; padding:40px; color:#666;">Loading…</p>
+            </div>
+        </div>`;
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    _fetchHistoryData(type);
 }
 
-async function loadHistoryData(type) {
-    currentHistoryType = type;
-
-    const config = historyConfig[type];
-    const titleEl = document.getElementById('historyModalTitle');
-    const contentDiv = document.getElementById('historyModalContent');
-    const searchEl = document.getElementById('historySearch');
-
-    if (!config || !contentDiv) return;
-
-    if (titleEl) titleEl.textContent = config.title;
-    if (searchEl) searchEl.value = '';
-
-    contentDiv.innerHTML = '<p style="text-align:center; padding:40px;">Loading...</p>';
+async function _fetchHistoryData(type) {
+    const config  = history_types[type];
+    const content = document.getElementById('historyListContent');
+    if (!content) return;
 
     try {
-        const res = await fetch(config.url);
+        const res  = await fetch(config.url);
         const data = await res.json();
 
-        if (!res.ok || data.error) {
-            throw new Error(data.error || 'Failed to load history.');
-        }
+        if (data.error) throw new Error(data.error);
 
-        currentHistoryData = Array.isArray(data) ? data : [];
-        renderHistoryList(currentHistoryData, type);
+        _historyData = Array.isArray(data) ? data : [];
+        _renderHistoryList(_historyData);
     } catch (err) {
-        console.error(err);
-        contentDiv.innerHTML = '<p style="color:red; text-align:center; padding:40px;">Failed to load history.</p>';
+        console.error('History fetch error:', err);
+        content.innerHTML = `<p style="color:red; text-align:center; padding:40px;">Failed to load history. Please try again.</p>`;
     }
 }
 
-function filterHistoryList(term) {
-    const q = (term || '').toLowerCase().trim();
-    const filtered = currentHistoryData.filter(item => {
-        return [
-            item.item_name,
-            item.subject,
-            item.complaint,
-            item.feedback,
-            item.description,
-            item.event_name,
-            item.category,
-            item.status,
-            item.item_type,
-            item.location,
-            item.venue
-        ].filter(Boolean).join(' ').toLowerCase().includes(q);
-    });
+function _renderHistoryList(data) {
+    const config  = history_types[_historyType];
+    const content = document.getElementById('historyListContent');
+    if (!content || !config) return;
 
-    renderHistoryList(filtered, currentHistoryType);
-}
-
-function renderHistoryList(data, type) {
-    const contentDiv = document.getElementById('historyModalContent');
-    const config = historyConfig[type];
-
-    if (!contentDiv || !config) return;
-
-    if (!data || data.length === 0) {
-        contentDiv.innerHTML = `<p style="text-align:center; padding:60px; color:#666;">${config.empty}</p>`;
+    if (!data.length) {
+        content.innerHTML = `<p style="text-align:center; padding:60px; color:#999; font-style:italic;">No records found.</p>`;
         return;
     }
 
-    contentDiv.innerHTML = data.map((item, index) => renderHistoryRow(item, type, index)).join('');
+    content.innerHTML = data.map(item => config.renderRow(item)).join('');
 }
 
-function renderHistoryRow(item, type, index) {
-    const title = getHistoryTitle(item, type);
-    const meta = getHistoryMeta(item, type);
-    const badge = getHistoryBadge(item, type);
+function filterHistoryList() {
+    const term   = document.getElementById('historySearchInput')?.value.toLowerCase().trim() || '';
+    const config = history_types[_historyType];
+    if (!config) return;
 
-    return `
-        <div class="student-list-item">
-            <div class="list-info">
-                <h4 style="margin:0 0 4px;">${escapeHtml(title)}</h4>
-                <p style="margin:0 0 6px; font-size:0.85rem; color:#667;">${escapeHtml(meta)}</p>
-                ${badge}
+    const key      = config.searchKey;
+    const filtered = _historyData.filter(item =>
+        (item[key] || '').toLowerCase().includes(term)
+    );
+    _renderHistoryList(filtered);
+}
+
+
+function openHistoryDetail(type, id) {
+    const config = history_types[type];
+    if (!config) return;
+
+    // Find the record in _historyData (works even if filtered list was shown)
+    const idKey = { eventRequest: 'request_id', complaint: 'complaint_id', feedback: 'feedback_id', reportedItem: 'item_id' }[type];
+    const item  = _historyData.find(r => String(r[idKey]) === String(id));
+    if (!item) { console.warn('Detail record not found for id', id); return; }
+
+    // Build / reuse detail modal
+    let detailModal = document.getElementById('historyDetailModal');
+    if (!detailModal) {
+        detailModal = document.createElement('div');
+        detailModal.id = 'historyDetailModal';
+        detailModal.className = 'modal modal-large';
+        document.body.appendChild(detailModal);
+    }
+
+    detailModal.innerHTML = `
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <h2>Details</h2>
+                <span class="close" onclick="closeModal('historyDetailModal')">✕</span>
             </div>
-            <button class="ok_btn" onclick="viewHistoryDetail('${type}', ${index})">View</button>
+            <div id="historyDetailContent">
+                ${config.renderDetail(item)}
+            </div>
         </div>`;
+
+    // Inject detail styles once
+    _injectHistoryStyles();
+
+    detailModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
 }
 
-function getHistoryTitle(item, type) {
-    if (type === 'report') return item.item_name || 'Unnamed Item';
-    if (type === 'complaint') return item.subject || 'Complaint';
-    if (type === 'feedback') return item.event_name || 'Event Feedback';
-    if (type === 'request') return item.event_name || 'Requested Event';
-    return 'History Item';
-}
+function _injectHistoryStyles() {
+    if (document.getElementById('historyHandlerStyles')) return;
+    const style = document.createElement('style');
+    style.id = 'historyHandlerStyles';
+    style.textContent = `
+        /* History list item */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .history-item:last-child { border-bottom: none; }
 
-function getHistoryMeta(item, type) {
-    if (type === 'report') {
-        return [capitalize(item.item_type), item.location, item.report_date || item.created_at].filter(Boolean).join(' | ');
-    }
-    if (type === 'complaint') {
-        return [item.event_name, item.created_at].filter(Boolean).join(' | ');
-    }
-    if (type === 'feedback') {
-        return [item.category, item.venue, item.event_date || item.created_at].filter(Boolean).join(' | ');
-    }
-    if (type === 'request') {
-        return [item.category, item.venue, item.event_date].filter(Boolean).join(' | ');
-    }
-    return '';
-}
+        /* Status badges */
+        .history-status {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .status-pending  { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d1e7dd; color: #0f5132; }
+        .status-rejected { background: #f8d7da; color: #842029; }
 
-function getHistoryBadge(item, type) {
-    if (type === 'feedback') {
-        const rating = Math.max(0, Math.min(5, parseInt(item.rating, 10) || 0));
-        return `<span style="font-size:1rem; color:#e8a000;">${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</span>`;
-    }
+        /* Star rating */
+        .history-stars { color: #f5a623; font-size: 1rem; letter-spacing: 2px; }
 
-    const label = type === 'report' ? (item.item_type || item.status || 'reported') : (item.status || 'pending');
-    const normalized = label.toLowerCase();
-    const colors = {
-        lost: ['#fdecea', '#b00020'],
-        found: ['#e8f5e9', '#184430'],
-        approved: ['#e8f5e9', '#184430'],
-        rejected: ['#fdecea', '#b00020'],
-        replied: ['#e3f0ff', '#1e64c8'],
-        pending: ['rgba(185,122,0,0.12)', '#7a5000']
-    };
-    const [bg, color] = colors[normalized] || ['rgba(24,68,48,0.09)', '#184430'];
+        /* Detail view */
+        .history-detail h3 {
+            color: var(--dark-green, #184430);
+            margin-bottom: 14px;
+            font-size: 1.25rem;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 520px) { .detail-grid { grid-template-columns: 1fr; } }
 
-    return `<span style="background:${bg};color:${color};font-size:0.75rem;font-weight:700;padding:2px 10px;border-radius:999px;text-transform:capitalize;">${escapeHtml(label)}</span>`;
-}
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .detail-row strong {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .detail-row span {
+            font-size: 0.95rem;
+            color: inherit;
+        }
 
-function viewHistoryDetail(type, index) {
-    const item = currentHistoryData[index];
-    const contentDiv = document.getElementById('historyModalContent');
-    const titleEl = document.getElementById('historyModalTitle');
-    const searchEl = document.getElementById('historySearch');
+        .detail-section {
+            margin-top: 14px;
+            padding: 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+        .detail-section strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .detail-section p { margin: 0; line-height: 1.6; }
 
-    if (!item || !contentDiv) return;
+        /* Admin reply block */
+        .reply-section {
+            background: rgba(24, 68, 48, 0.05);
+            border-left: 3px solid var(--dark-green, #184430);
+        }
+        .reply-section small {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: #999;
+        }
 
-    if (titleEl) titleEl.textContent = getHistoryDetailTitle(type);
-    if (searchEl) searchEl.style.display = 'none';
-
-    contentDiv.innerHTML = `
-        <button class="btn btn-action" style="margin-bottom:16px;" onclick="showHistoryListAgain()">Back to list</button>
-        ${renderHistoryDetail(item, type)}
+        /* Dark mode compatibility */
+        body.dark-mode .history-item { border-bottom-color: #444; }
+        body.dark-mode .detail-section { background: rgba(255,255,255,0.05); }
+        body.dark-mode .reply-section  { background: rgba(248,200,148,0.08); }
+        body.dark-mode .history-status.status-pending  { background: #433d1a; color: #ffd700; }
+        body.dark-mode .history-status.status-approved { background: #1a3328; color: #6fcf97; }
+        body.dark-mode .history-status.status-rejected { background: #3d1a1a; color: #eb5757; }
     `;
+    document.head.appendChild(style);
 }
 
-function showHistoryListAgain() {
-    const config = historyConfig[currentHistoryType];
-    const titleEl = document.getElementById('historyModalTitle');
-    const searchEl = document.getElementById('historySearch');
-
-    if (titleEl && config) titleEl.textContent = config.title;
-    if (searchEl) {
-        searchEl.style.display = '';
-        searchEl.value = '';
-    }
-
-    renderHistoryList(currentHistoryData, currentHistoryType);
-}
-
-function getHistoryDetailTitle(type) {
-    const titles = {
-        report: 'Reported Item Detail',
-        complaint: 'Complaint Detail',
-        feedback: 'Feedback Detail',
-        request: 'Event Request Detail'
-    };
-    return titles[type] || 'History Detail';
-}
-
-function renderHistoryDetail(item, type) {
-    if (type === 'report') {
-        return detailLayout([
-            ['Item Name', item.item_name],
-            ['Type', capitalize(item.item_type)],
-            ['Location', item.location],
-            ['Reported Date', item.report_date],
-            ['Status', item.status],
-            ['Submitted', item.created_at]
-        ], [
-            ['Description', item.description]
-        ], item.item_photo);
-    }
-
-    if (type === 'complaint') {
-        const hasReply = item.reply && item.reply.trim() !== '';
-        return detailLayout([
-            ['Subject', item.subject],
-            ['Event', item.event_name],
-            ['Event Date', item.event_date],
-            ['Submitted', item.created_at],
-            ['Status', hasReply ? 'Replied' : 'Pending']
-        ], [
-            ['Your Complaint', item.complaint],
-            ['Admin Reply', hasReply ? item.reply : 'No reply yet. Your complaint is being reviewed.'],
-            ['Replied By', item.replied_by_name],
-            ['Replied At', item.replied_at]
-        ]);
-    }
-
-    if (type === 'feedback') {
-        return detailLayout([
-            ['Event', item.event_name],
-            ['Event Date', item.event_date],
-            ['Category', item.category],
-            ['Venue', item.venue],
-            ['Rating', `${item.rating || 0} / 5`],
-            ['Submitted', item.created_at]
-        ], [
-            ['Feedback', item.feedback]
-        ]);
-    }
-
-    if (type === 'request') {
-        return detailLayout([
-            ['Event Name', item.event_name],
-            ['Category', item.category],
-            ['Date', item.event_date],
-            ['Time', item.event_time],
-            ['Venue', item.venue],
-            ['Volunteers Needed', item.volunteers_needed],
-            ['Status', item.status],
-            ['Requested On', item.created_at]
-        ], [
-            ['Description', item.description]
-        ]);
-    }
-
-    return '';
-}
-
-function detailLayout(fields, blocks, photoPath = '') {
-    const photo = photoPath
-        ? `<div style="margin-bottom:16px;"><img src="../../${escapeHtml(photoPath)}" alt="Reported item" onerror="this.style.display='none'" style="width:100%;max-height:260px;object-fit:cover;border-radius:8px;"></div>`
-        : '';
-
-    const fieldHtml = fields
-        .filter(([, value]) => value !== undefined && value !== null && value !== '')
-        .map(([label, value]) => `
-            <div class="meta-item">
-                <strong>${escapeHtml(label)}</strong>
-                <span>${escapeHtml(value)}</span>
-            </div>
-        `).join('');
-
-    const blockHtml = blocks
-        .filter(([, value]) => value !== undefined && value !== null && value !== '')
-        .map(([label, value]) => `
-            <div style="margin-top:14px;">
-                <h4 style="color:#184430; margin-bottom:8px;">${escapeHtml(label)}</h4>
-                <div style="padding:12px 14px;background:rgba(24,68,48,0.05);border-left:4px solid #184430;border-radius:0 8px 8px 0;font-size:0.93rem;color:#1d3228;line-height:1.6;">
-                    ${escapeHtml(value)}
-                </div>
-            </div>
-        `).join('');
-
-    return `
-        ${photo}
-        <div class="event-meta">${fieldHtml}</div>
-        ${blockHtml}
-    `;
-}
-
-function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, char => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    }[char]));
-}
-
-function capitalize(value) {
-    if (!value) return '';
-    const str = String(value);
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+_injectHistoryStyles();

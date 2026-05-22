@@ -18,22 +18,13 @@ try {
 
     $stmt = $conn->prepare("
         SELECT
-            request_id,
-            ename          AS event_name,
-            category,
-            description,
-            date           AS event_date,
-            time           AS event_time,
-            venue,
-            volunteers_needed,
-            status,
-            created_at
+            *
         FROM event_requests
         WHERE student_id = ?
         ORDER BY created_at DESC
     ");
     $stmt->execute([$userId]);
-    $rows = $stmt->get_result()->fetch_all(PDO::FETCH_ASSOC);
+    $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
     echo json_encode($rows);
 

@@ -210,8 +210,19 @@ function toggleProfileMenu() {
     }
 }
 
-function goToProfile() {
-    alert('Profile page will be available soon!');
+async function goToProfile() {
+    let uid;
+    try {
+        const res  = await fetch('../../php/get_current_user.php');
+        const data = await res.json();
+        if (data.success && data.user) {
+            uid = data.user.id;
+        }
+    } catch (error) {
+        console.error('Failed to load user profile:', error);
+    }
+
+    openUserDetailsModal(uid);
 }
 
 function logout() {

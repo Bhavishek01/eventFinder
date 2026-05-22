@@ -155,17 +155,17 @@ function renderStudentList(data, type) {
     let extraHTML = '';
     if (type === 'items_reported' ) {
         extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
-                            onclick="openStudentListModal('itemReportHistoryModal')">history </button>`;
+                            onclick="openHistoryModal('reportedItem')">history </button>`;
     }
 
     if (type === 'complaints') {
         extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
-                            onclick="openStudentListModal('eventRequestHistoryModal')">history </button>`;
+                            onclick="openHistoryModal('complaint')">history </button>`;
     }
 
         if (type === 'feedback') {
         extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
-                            onclick="openStudentListModal('eventRequestHistoryModal')">history </button>`;
+                            onclick="openHistoryModal('feedback')">history </button>`;
     }
 
     if (!data || data.length === 0) {
@@ -513,6 +513,64 @@ async function handleFeedbackSubmit(e) {
         }
     } catch (err) {
         alert('Network error');
+    }
+}
+
+// ====================== PROFILE ======================
+
+function openUserDetailsModal(userId) {
+    openModal('../../frontends/admin/user_details_modal.html', 'userDetailsModal', function(modal) {
+        loadUserDetails(userId, modal);
+        attachModalCloseEvents(modal, 'userDetailsModal');
+    });
+}
+
+async function loadUserDetails(userId, modal) {
+    const contentDiv = modal.querySelector('#userDetailsContent');
+    if (!contentDiv) return;
+
+    contentDiv.innerHTML = '<p style="text-align:center; padding:40px;">Loading user details...</p>';
+
+    try {
+        const res = await fetch(`../../php/admin/get_user_details.php?user_id=${userId}`);
+        const user = await res.json();
+
+        const html = `
+            <div style="text-align:center; margin-bottom:20px;">
+                <img src="../../${user.photo || 'uploads/profile_photos/default.jpg'}" 
+                     alt="${user.uname}" 
+                     style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid #184430;">
+            </div>
+            
+            <div class="event-details">
+                <h2>${user.uname}</h2>
+                
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <strong>Email</strong>
+                        <span>${user.email}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        <span>${user.role}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Phone</strong>
+                        <span>${user.phone || 'Not provided'}</span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Address</strong>
+                        <span>${user.address || 'Not provided'}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        contentDiv.innerHTML = html;
+
+    } catch (err) {
+        console.error(err);
+        contentDiv.innerHTML = `<p style="color:red; text-align:center;">Failed to load user details.</p>`;
     }
 }
 
