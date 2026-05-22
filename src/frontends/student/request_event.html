@@ -9,9 +9,20 @@
 <body>
     <div id="requestEventModal" class="modal modal-large show">
         <div class="modal-content modal-content-large">
-            <div class="modal-header">
-                <h2>Request New Event</h2>
-                <span class="close" onclick="closeModal('requestEventModal')">✕</span>
+            <div class="modal-header-req">
+    
+                <!-- Top row -->
+                <div class="header-top">
+                    <h2>Request New Event</h2>
+                    <span class="close" onclick="closeModal('requestEventModal')">✕</span>
+                </div>
+
+                <!-- Bottom row -->
+                <button class="btn btn-action history-btn"
+                        onclick="openStudentListModal('eventRequestHistoryModal')">
+                    History
+                </button>
+
             </div>
             
             <form id="requestEventForm" class="event-form" enctype="multipart/form-data">

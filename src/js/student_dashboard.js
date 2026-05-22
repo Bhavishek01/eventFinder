@@ -146,14 +146,26 @@ function renderStudentList(data, type) {
     const titles = {
         'participated': 'Events Participated',
         'registrations': 'My Registrations',
-        'items_reported': 'Report Item - Past Events'
+        'items_reported': 'Report Item - Past Events',
+        'complaints': 'Complaints - Past Events',
+        'feedback': 'Feedback - Past Events'
     };
     titleEl.textContent = titles[type] || 'My List';
 
     let extraHTML = '';
-    if (type === 'items_reported') {
-        extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; width:100%;" 
-                            onclick="openReportItemModal()">+ Report New Item (Lost/Found)</button>`;
+    if (type === 'items_reported' ) {
+        extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
+                            onclick="openStudentListModal('itemReportHistoryModal')">history </button>`;
+    }
+
+    if (type === 'complaints') {
+        extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
+                            onclick="openStudentListModal('eventRequestHistoryModal')">history </button>`;
+    }
+
+        if (type === 'feedback') {
+        extraHTML = `<button class="btn btn-action" style="margin-bottom:15px; margin-top:15px; width:100%;" 
+                            onclick="openStudentListModal('eventRequestHistoryModal')">history </button>`;
     }
 
     if (!data || data.length === 0) {

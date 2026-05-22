@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../../css/modal.css">
+    <style>
+        .history-search {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--light-bg);
+            transition: border-color 0.2s;
+        }
+        .history-search:focus {
+            outline: none;
+            border-color: var(--green-light);
+            box-shadow: 0 0 0 3px rgba(24, 68, 48, 0.1);
+        }
+        .history-list-container {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .list-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* dark mode */
+        body.dark-mode .history-search {
+            background: #2a2a2a;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+        body.dark-mode .history-search::placeholder {
+            color: #999;
+        }
+        body.dark-mode .student-list-item {
+            border-bottom-color: rgba(245,241,237,0.15);
+        }
+    </style>
+</head>
+<body>
+    <div id="historyModal" class="modal show">
+        <div class="modal-content modal-content-large">
+            <div class="modal-header">
+                <div class="header-top">
+                    <h2 id="historyModalTitle">History</h2>
+                    <span class="close" onclick="closeModal('historyModal')">✕</span>
+                </div>
+            </div>
+
+            <input type="text" id="historySearch" class="history-search" placeholder="Search..."
+                   oninput="filterHistoryList(this.value)">
+
+            <div class="history-list-container" id="historyModalContent">
+                <p style="text-align:center; padding:40px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
