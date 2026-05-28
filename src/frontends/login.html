@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Login</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-S..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <!-- Theme Toggle Button -->
     <div class="theme-toggle">
         <button id="themeToggle" class="theme-btn" onclick="toggleThemeBtn()">
-            <i class="fa-solid fa-moon" id="themeIcon"></i>
+            <span id="themeIcon">🌙</span>
         </button>
     </div>
 
@@ -31,7 +30,7 @@
                 <label for="password">Password</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    <i class="fa-solid fa-eye-slash toggle-password" id="toggleLoginPassword"></i>
+                    <span class="toggle-password" id="toggleLoginPassword">👁️</span>
                 </div>
             </div>
 
@@ -44,7 +43,6 @@
 
             <button type="submit" class="btn">Sign In</button>
         </form>
-
         <p class="signup-link">
             Don't have an account? <a href="signup.html">Sign up</a>
         </p>

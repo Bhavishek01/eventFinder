@@ -1,0 +1,201 @@
+<mxfile host="Electron" modified="2026-05-25T10:00:00.000Z" agent="Mozilla/5.0" etag="abc123" version="24.0.0" type="device">
+  <diagram id="dfd2" name="DFD 2 - Detailed Processes">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="DFD 2 - Detailed Process Decomposition (Event Management &amp; Participation Management)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="0" y="10" width="1600" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- External Entities -->
+        <mxCell id="student" value="Student" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E6F1;strokeColor=#3498DB;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="20" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="admin" value="Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4E6F1;strokeColor=#3498DB;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="20" y="500" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="database" value="Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#EA6B66;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1450" y="400" width="90" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- EVENT MANAGEMENT PROCESSES (Left side) -->
+        <mxCell id="p21" value="2.1&#10;View Events" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p22" value="2.2&#10;Create Event" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="340" y="80" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p23" value="2.3&#10;Update Event" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="480" y="80" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p24" value="2.4&#10;Delete Event" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="620" y="80" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- PARTICIPATION MANAGEMENT PROCESSES (Middle) -->
+        <mxCell id="p31" value="3.1&#10;Register as&#10;Participant" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="200" y="300" width="100" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p32" value="3.2&#10;Register as&#10;Volunteer" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="340" y="300" width="100" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p33" value="3.3&#10;Approve/Reject&#10;Participation" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="480" y="300" width="100" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="p34" value="3.4&#10;View My&#10;Registrations" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor:#9673A6;fontSize=10;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="620" y="300" width="100" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Student to Event Management -->
+        <mxCell id="f1" edge="1" parent="1" source="student" target="p21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f1l" value="Browse" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f1">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Admin to Event Management -->
+        <mxCell id="f2" edge="1" parent="1" source="admin" target="p22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2l" value="Create" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f2">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f3" edge="1" parent="1" source="admin" target="p23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3l" value="Edit" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f3">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f4" edge="1" parent="1" source="admin" target="p24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4l" value="Delete" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f4">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Student to Participation Management -->
+        <mxCell id="f5" edge="1" parent="1" source="student" target="p31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f5l" value="Join" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f5">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f6" edge="1" parent="1" source="student" target="p32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f6l" value="Volunteer" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f6">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f7" edge="1" parent="1" source="student" target="p34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f7l" value="View" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f7">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Admin to Participation Management -->
+        <mxCell id="f8" edge="1" parent="1" source="admin" target="p33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f8l" value="Review" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f8">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Event Management to Database -->
+        <mxCell id="f9" edge="1" parent="1" source="p21" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="120" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f9l" value="Read" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f9">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f10" edge="1" parent="1" source="p22" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="120" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f10l" value="Insert" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f10">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f11" edge="1" parent="1" source="p23" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="120" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f11l" value="Update" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f11">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f12" edge="1" parent="1" source="p24" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="120" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f12l" value="Delete" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f12">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Participation Management to Database -->
+        <mxCell id="f13" edge="1" parent="1" source="p31" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="400" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f13l" value="Insert" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f13">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f14" edge="1" parent="1" source="p32" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="400" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f14l" value="Insert" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f14">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f15" edge="1" parent="1" source="p33" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="400" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f15l" value="Update" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f15">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="f16" edge="1" parent="1" source="p34" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="targetPoint" x="1450" y="400" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f16l" value="Read" style="edgeLabel;html=1;align=center;fontSize=9" vertex="1" connectable="0" parent="f16">
+          <mxGeometry x="0" y="-10" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend" value="Legend: Process (Circle) | External Entity (Rounded Rectangle) | Data Store (Rectangle)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="0" y="1100" width="1600" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

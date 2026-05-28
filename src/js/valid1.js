@@ -54,13 +54,13 @@ function validateFullname(val) {
 function validateEmail(val) {
     if (!val) return { error: 'Email address is required.', info: '' };
     if (!isValidEmail(val)) return { error: 'Please enter a valid email address.', info: '' };
-    if (!isCollegeEmail(val)) return { error: '', info: 'admin approval needed.' };
+    if (!isCollegeEmail(val)) return { error: '', info: 'not college email.' };
     return { error: '', info: '' };
 }
 
 function validateAddress(val) {
     if (!val) return 'Address is required.';
-    if (val.length < 5) return 'Please enter a more complete address.';
+    if (val.length < 3) return 'Enter valid address.';
     return '';
 }
 
@@ -125,9 +125,9 @@ function showNonCollegeModal(email, onProceed) {
         <div class="nc-modal">
             <h3>Non-College Email Detected</h3>
             <p>The email <strong>${email}</strong> is not a registered KCC college email.</p>
-            <p>You can still sign up, but your account will be <strong>pending admin approval</strong> before you can log in.</p>
+            <p>You can't' sign up, but you can change your email or go back to homepage.</p>
             <div class="nc-modal-actions">
-                <button id="ncProceed" class="btn btn-primary">Wait for Approval</button>
+                <button id="ncProceed" class="btn btn-primary">Go back to Homepage</button>
                 <button id="ncCancel"  class="btn btn-secondary">Use a Different Email</button>
             </div>
         </div>
@@ -198,7 +198,7 @@ function handleSignupSubmit(event) {
     if (!isCollegeEmail(email) && !nonCollegeAcknowledged) {
         event.preventDefault();
         const form = event.target;
-        showNonCollegeModal(email, () => form.submit());
+        showNonCollegeModal(email, () => goToHomepage());
         return false;
     }
 
@@ -214,10 +214,10 @@ function togglePasswordVisibility(inputId, iconId) {
 
     if (inputField.type === 'password') {
         inputField.type = 'text';
-        toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        toggleIcon.textContent = '🙈';
     } else {
         inputField.type = 'password';
-        toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        toggleIcon.textContent = '👁️';
     }
 }
 
@@ -316,3 +316,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial button state
     updateSubmitButton();
 });
+
+function goToHomepage()
+{
+    window.location.href = `index.php`;
+}
