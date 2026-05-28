@@ -25,7 +25,7 @@ class ThemeManager {
         const isDark = this.theme === 'dark';
         const icon = document.getElementById('themeIcon');
         if (icon) {
-            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+           icon.textContent = this.theme === 'dark' ? '☀️' : '🌙';
         }
     }
 

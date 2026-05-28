@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2026 at 08:29 AM
+-- Generation Time: May 28, 2026 at 05:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,8 +36,10 @@ CREATE TABLE `complaints` (
   `reply` text DEFAULT NULL,
   `replied_by` int(11) DEFAULT NULL,
   `replied_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `events`
@@ -55,9 +57,11 @@ CREATE TABLE `events` (
   `photo` varchar(255) DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
+  `created_at` date DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `event_requests`
@@ -76,8 +80,10 @@ CREATE TABLE `event_requests` (
   `venue` varchar(255) NOT NULL,
   `volunteers_needed` int(11) DEFAULT 0,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `feedback`
@@ -89,8 +95,10 @@ CREATE TABLE `feedback` (
   `event_id` int(11) NOT NULL,
   `rating` tinyint(4) NOT NULL CHECK (`rating` between 1 and 5),
   `feedback` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `found_items`
@@ -108,6 +116,8 @@ CREATE TABLE `found_items` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `lost_items`
 --
@@ -121,50 +131,7 @@ CREATE TABLE `lost_items` (
   `item_photo` varchar(255) DEFAULT NULL,
   `lost_date` date NOT NULL,
   `status` varchar(50) DEFAULT 'open',
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `mails`
---
-
-CREATE TABLE `mails` (
-  `mail_id` int(11) NOT NULL,
-  `template_name` varchar(100) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `message` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Table structure for table `notices`
---
-
-CREATE TABLE `notices` (
-  `notice_id` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `body` text NOT NULL,
-  `created_by` varchar(150) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `out_user`
---
-
-CREATE TABLE `out_user` (
-  `user_id` int(11) NOT NULL,
-  `uname` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('student','teacher','admin','alumni') NOT NULL DEFAULT 'student',
-  `address` varchar(255) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `photo` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` varchar(50) DEFAULT NULL
+  `created_at` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -182,6 +149,8 @@ CREATE TABLE `participators` (
   `registered_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `users`
 --
@@ -195,10 +164,20 @@ CREATE TABLE `users` (
   `address` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `uname`, `email`, `password`, `role`, `address`, `phone`, `photo`, `created_at`) VALUES
+(1, 'admin', 'admin01@kcc.edu.np', '@Admin123', 'admin', 'admin', 'admin', '', '2026-05-28 20:50:35'),
+(2, 'admin', 'admin0928@gmail.com', '@Admin123', 'admin', 'admin', 'admin', NULL, '2026-05-28 21:17:19');
+
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `complaints`
@@ -245,25 +224,6 @@ ALTER TABLE `lost_items`
   ADD PRIMARY KEY (`lost_item_id`);
 
 --
--- Indexes for table `mails`
---
-ALTER TABLE `mails`
-  ADD PRIMARY KEY (`mail_id`);
-
---
--- Indexes for table `notices`
---
-ALTER TABLE `notices`
-  ADD PRIMARY KEY (`notice_id`);
-
---
--- Indexes for table `out_user`
---
-ALTER TABLE `out_user`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- Indexes for table `participators`
 --
 ALTER TABLE `participators`
@@ -286,67 +246,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `complaints`
 --
 ALTER TABLE `complaints`
-  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `event_requests`
 --
 ALTER TABLE `event_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `found_items`
 --
 ALTER TABLE `found_items`
-  MODIFY `found_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `found_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `lost_items`
 --
 ALTER TABLE `lost_items`
-  MODIFY `lost_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `mails`
---
-ALTER TABLE `mails`
-  MODIFY `mail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `notices`
---
-ALTER TABLE `notices`
-  MODIFY `notice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `out_user`
---
-ALTER TABLE `out_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `lost_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `participators`
 --
 ALTER TABLE `participators`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

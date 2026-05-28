@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Sign Up</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-S..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <!-- Theme Toggle Button -->
     <div class="theme-toggle">
         <button id="themeToggle" class="theme-btn" onclick="toggleThemeBtn()">
-            <i class="fa-solid fa-moon" id="themeIcon"></i>
+            <span id="themeIcon">🌙</span>
         </button>
     </div>
 
@@ -38,7 +37,7 @@
             <!-- Address + Phone -->
             <div class="phone-photo-group">
                 <div class="form-group photo-field">
-                    <label for="address">Address</label>
+                    <label for="address">Address<span style="font-weight:400;font-size:.8rem;color:#888">(optional)</span></label>
                     <input type="text" id="address" name="address" placeholder="Enter your address" required>
                     <p class="field-feedback" data-feedback="address"></p>
                 </div>
@@ -60,7 +59,7 @@
                 <label for="password">Password</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" name="password" placeholder="Create a password" required>
-                    <i class="fa-solid fa-eye-slash toggle-password" id="toggleSignupPassword"></i>
+                    <span class="toggle-password" id="toggleSignupPassword">👁️</span>
                 </div>
                 <p class="field-feedback" data-feedback="password"></p>
             </div>
@@ -70,7 +69,7 @@
                 <label for="confirm-password">Confirm Password</label>
                 <div class="password-wrapper">
                     <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
-                    <i class="fa-solid fa-eye-slash toggle-password" id="toggleConfirmPassword"></i>
+                    <span class="toggle-password" id="toggleConfirmPassword">👁️</span>
                 </div>
                 <p class="field-feedback" data-feedback="confirm-password"></p>
             </div>
