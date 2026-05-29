@@ -346,6 +346,93 @@ textarea.input-success,
     }
 }
 
+/* Dark mode overrides (used when <body class="dark-mode"> is set) */
+/* Dark mode: Midnight Teal theme (higher contrast, readable modals) */
+body.dark-mode {
+    background: linear-gradient(160deg, #071728 6%, #082a34 60%);
+    color: #e9fbf4;
+}
+
+/* Subtle ambient glows in dark mode */
+body.dark-mode::before { background: radial-gradient(circle at 10% 10%, rgba(31,123,96,0.06), transparent 28%); }
+body.dark-mode::after  { background: radial-gradient(circle at 90% 90%, rgba(102,217,191,0.04), transparent 26%); }
+
+/* Login container: slightly translucent surface for legibility */
+body.dark-mode .login-container {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-color: rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(2,8,10,0.5);
+    color: #e9fbf4;
+}
+
+/* High-contrast text overrides for dark mode */
+body.dark-mode .login-container h1,
+body.dark-mode .login-container > p,
+body.dark-mode .form-group label,
+body.dark-mode .nc-modal h3,
+body.dark-mode .nc-modal p,
+body.dark-mode .modal .modal-content h3,
+body.dark-mode .modal .modal-content p {
+    color: #f7fff9 !important;
+}
+
+body.dark-mode a { color: #8fffe0; }
+
+body.dark-mode .form-group input::placeholder,
+body.dark-mode .password-wrapper input::placeholder {
+    color: rgba(247,255,249,0.56);
+}
+
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .password-wrapper input {
+    color: #f7fff9;
+}
+
+body.dark-mode .field-feedback { color: #ffdcbf !important; }
+
+/* Inputs use faint glass surface to read on dark backgrounds */
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .password-wrapper input {
+    background: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.06);
+    color: #e9fbf4;
+}
+
+/* Feedback and subtle accents */
+body.dark-mode .field-feedback { color: #ffd8b0; }
+
+/* Primary action: mint accent for good contrast */
+body.dark-mode .btn {
+    background: linear-gradient(135deg, #64e6c2 0%, #2fc9a0 100%);
+    color: #06221a;
+    box-shadow: 0 10px 28px rgba(47,201,160,0.12);
+}
+
+body.dark-mode .btn:hover {
+    background: linear-gradient(135deg, #5bdfb6, #28bd96);
+    box-shadow: 0 14px 36px rgba(47,201,160,0.16);
+}
+
+/* Secondary / small UI elements */
+body.dark-mode .theme-btn { background: rgba(255,255,255,0.02); color: #dff7ee; }
+body.dark-mode .btn-secondary { background: rgba(255,255,255,0.015); color: #cfe6de; border-color: rgba(255,255,255,0.04); }
+
+/* Modals should clearly float above the background */
+body.dark-mode .modal,
+body.dark-mode .nc-modal { z-index: 1200; }
+
+body.dark-mode .modal .modal-content,
+body.dark-mode .nc-modal {
+    background: rgba(6,20,22,0.88);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #e9fbf4;
+}
+
+/* Reduce decorative opacity to avoid washing out modal content */
+body.dark-mode::before, body.dark-mode::after { opacity: 0.14; }
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
