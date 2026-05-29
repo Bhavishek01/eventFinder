@@ -16,6 +16,55 @@ $email   = trim($_POST['email'] ?? '');
 $role    = trim($_POST['role'] ?? '');
 $password = $_POST['password'] ?? '';
 
+// Validation
+$errors = [];
+
+if (empty($uname)) {
+    $errors[] = "Full name is required.";
+}
+
+if (empty($phone)) {
+    $errors[] = "Phone number is required.";
+} elseif (!preg_match('/^(98|97)\d{8}$/', $phone)) {
+    $errors[] = "Invalid phone number format (98XXXXXXXX or 97XXXXXXXX).";
+}
+
+if (!empty($password)) {
+    if (strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters.";
+    } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\\:"|,.<>\/?]).{8,}$/', $password)) {
+        $errors[] = "Password must include uppercase, lowercase, number and symbol.";
+    }
+}
+
+if (empty($email)) {
+    $errors[] = "Email is required.";
+} 
+else {
+    $lowerEmail = strtolower(trim($email));
+    
+    if (strpos($lowerEmail, 'admin') === 0) {
+    } 
+    else {
+        if (!preg_match('/^[a-zA-Z]+\d+(bit|bca)\d+@kcc\.edu\.np$/i', $email)) {
+            $errors[] = "Invalid email format. Students must use KCC college email.";
+        }
+    }
+}
+
+if (empty($phone)) {
+    $errors[] = "Phone number is required.";
+} elseif (!preg_match('/^(98|97)\d{8}$/', $phone)) {
+    $errors[] = "Invalid phone number format (98XXXXXXXX or 97XXXXXXXX).";
+}
+
+
+
+if (!empty($errors)) {
+    echo json_encode(['success' => false, 'message' => implode("<br>", $errors)]);
+    exit;
+}
+
 if (!$user_id || empty($uname)) {
     echo json_encode(['success' => false, 'message' => 'Missing required fields (Name is required)']);
     exit;

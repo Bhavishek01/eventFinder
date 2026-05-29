@@ -193,6 +193,9 @@ function renderStudentList(data, type) {
         } else if (type === 'feedback') {
             buttonText = 'Review';
             onclick = `FeedbackModal(${item.event_id})`;
+        } else if (type === 'registrations') {
+            buttonText = 'Review';
+            onclick = `viewEventDetailsFromListForCancle(${item.event_id}, '${type}')`;
         }
 
         html += `
@@ -206,6 +209,125 @@ function renderStudentList(data, type) {
     });
 
     contentDiv.innerHTML = html;
+}
+
+function viewEventDetailsFromListForCancle(eventId, listType) {
+    closeModal('studentListModal');
+    viewEventDetailCancle(eventId);               
+}
+
+function viewEventDetailCancle(eventId) {
+    openModal('../../frontends/event_details_modal.html', 'eventDetailsModal', function() {
+        fetch(`../../php/get_event_details.php?event_id=${eventId}`)
+            .then(res => res.json())
+            .then(event => {
+                const photoPath = event.photo
+                    ? '../../' + event.photo
+                    : '../../uploads/event_photos/default.jpg';
+
+                const eventDate = new Date(event.date);
+                const currentDate = new Date();
+
+                currentDate.setHours(0, 0, 0, 0);
+                eventDate.setHours(0, 0, 0, 0);
+
+                let status = "";
+
+                if (eventDate > currentDate) {
+                    status = "Upcoming";
+                } else if (eventDate < currentDate) {
+                    status = "Completed";
+                } else {
+                    status = "Today";
+                }
+
+                const volunteersNeeded = parseInt(event.volunteers_needed) || 0;
+                
+                const content = `
+                    <div class="event-photo">
+                        <img
+                            src="${photoPath}"
+                            alt="${event.ename}"
+                            onerror="this.src='../../uploads/event_photos/default.jpg'"
+                            style="width:100%; height:250px; object-fit:cover; border-radius:5px;">
+                    </div>
+
+                    <div class="event-details">
+                        <h2>${event.ename}</h2>
+
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <strong>Category</strong>
+                                <span>${event.category ? event.category.charAt(0).toUpperCase() + event.category.slice(1) : 'N/A'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Date</strong>
+                                <span>${event.date}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Time</strong>
+                                <span>${event.time || 'N/A'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Location</strong>
+                                <span>${event.venue || event.location || 'N/A'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Status</strong>
+                                <span >${status}</span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Volunteers Needed</strong>
+                                <span>${volunteersNeeded > 0 ? volunteersNeeded : 'None'}</span>
+                            </div>
+                        </div>
+
+                        <div class="event-description">
+                            <h3>About This Event</h3>
+                            <p>${event.description}</p>
+                        </div>
+                        <button class="btn btn-more" onclick="cancelRegistration(${event.event_id})">Cancel Registration</button>
+                    </div>
+                `;
+
+                document.getElementById('eventDetailsContent').innerHTML = content;
+            })
+            .catch(error => {
+                console.error('Error fetching event details:', error);
+                document.getElementById('eventDetailsContent').innerHTML =
+                    `<p style="color:red; text-align:center;">Failed to load event details.</p>`;
+            });
+    });
+}
+
+async function cancelRegistration(eventId) {
+    if (!confirm("Are you sure you want to cancel your registration for this event?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`../../php/student/cancel_registration.php?event_id=${eventId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ event_id: eventId })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('✅ Registration cancelled successfully!');
+            closeModal('eventDetailsModal');  // Close event detail modal
+            // Refresh the list if user is in "My Registrations"
+            if (currentStudentListType === 'registrations') {
+                loadStudentListData('registrations');
+            }
+        } else {
+            alert('❌ ' + (data.message || 'Failed to cancel registration'));
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Network error. Please try again.');
+    }
 }
 
 function viewEventDetailsFromList(eventId, listType) {

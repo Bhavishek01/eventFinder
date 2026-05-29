@@ -1,5 +1,6 @@
 <?php
 require_once('../../database/db_con.php');
+require_once('../email_helper.php');
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -75,11 +76,27 @@ try {
     );
 
     if ($stmt->execute()) {
+
+    $subject    = "New Event: $eventName";
+    $body       = "Hello,\n\nA new event has been created:\n\n" .
+                  "Event Name: $eventName\n" .
+                  "Category: $category\n" .
+                  "Description: $description\n" .
+                  "Date: $date\n" .
+                  "Time: $time\n" .
+                  "Location: $location\n\n" .
+                  "Please log in to your dashboard for more details and to register.\n\n" .
+                  "Best regards,\nKCC EventFinder Team";
+
+    
+
         echo json_encode([
             'success' => true, 
             'message' => 'Event created successfully!',
             'event_id' => $stmt->insert_id
         ]);
+
+        $sent = sendToAllUsers($subject, $body);
     } else {
         echo json_encode(['success' => false, 'message' => 'Error creating event: ' . $stmt->error]);
     }
