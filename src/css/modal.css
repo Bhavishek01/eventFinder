@@ -353,3 +353,325 @@ body.dark-mode .btn-cancel {
 body.dark-mode .btn-cancel:hover {
     background: #666;
 }
+
+/* ===================== UI refresh ===================== */
+:root {
+    --ui-panel: rgba(255, 251, 243, 0.92);
+    --ui-panel-strong: #fffaf3;
+    --ui-copy: #183127;
+    --ui-soft: #5e6f66;
+    --ui-accent: #1f6b4c;
+    --ui-accent-2: #d89132;
+    --ui-border: rgba(24, 49, 39, 0.12);
+    --ui-shadow: 0 24px 64px rgba(16, 28, 24, 0.18);
+    --ui-ring: rgba(31, 107, 76, 0.18);
+}
+
+body {
+    position: relative;
+    overflow-x: hidden;
+    isolation: isolate;
+    font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(216, 145, 50, 0.22), transparent 30%),
+        radial-gradient(circle at right 20%, rgba(31, 107, 76, 0.16), transparent 28%),
+        linear-gradient(160deg, #fffaf3 0%, #f6ebd6 100%);
+    color: var(--ui-copy);
+}
+
+    .modal {
+        background: rgba(11, 16, 14, 0.56);
+        backdrop-filter: blur(12px);
+    }
+
+    .modal-content {
+        position: relative;
+        border-radius: 26px;
+        border: 1px solid rgba(24, 49, 39, 0.1);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 243, 0.92));
+        box-shadow: var(--ui-shadow);
+        animation: modalRise 240ms ease-out;
+    }
+
+    .modal-content::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(31, 107, 76, 0.36), rgba(216, 145, 50, 0.28));
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    .modal-header,
+    .modal-header-req {
+        border-bottom: 1px solid rgba(24, 49, 39, 0.08);
+        padding-bottom: 14px;
+    }
+
+    .modal-header h2 {
+        color: var(--ui-copy);
+        letter-spacing: -0.03em;
+    }
+
+    .modal-header .close,
+    .close {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: inline-grid;
+        place-items: center;
+        color: var(--ui-soft);
+        background: rgba(31, 107, 76, 0.06);
+        transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+    }
+
+    .modal-header .close:hover,
+    .close:hover {
+        color: var(--ui-accent);
+        background: rgba(31, 107, 76, 0.12);
+        transform: translateY(-1px);
+    }
+
+    .event-form,
+    .modal-content form {
+        gap: 16px;
+    }
+
+    .form-group label {
+        color: var(--ui-copy);
+        font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+        border: 1px solid rgba(24, 49, 39, 0.12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .form-group input:hover,
+    .form-group select:hover,
+    .form-group textarea:hover,
+    .modal-content input:hover,
+    .modal-content select:hover,
+    .modal-content textarea:hover {
+        border-color: rgba(31, 107, 76, 0.28);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus,
+    .modal-content input:focus,
+    .modal-content select:focus,
+    .modal-content textarea:focus {
+        outline: none;
+        border-color: rgba(31, 107, 76, 0.56);
+        box-shadow: 0 0 0 4px var(--ui-ring);
+    }
+
+    .form-row {
+        gap: 18px;
+    }
+
+    .form-buttons {
+        justify-content: flex-end;
+    }
+
+    .btn,
+    .ok_btn,
+    .btn-action,
+    .registration-btn,
+    .volunteer-btn {
+        border-radius: 999px;
+        transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+    }
+
+    .btn-action,
+    .registration-btn,
+    .volunteer-btn,
+    .ok_btn {
+        background: linear-gradient(135deg, var(--ui-accent), #154d38);
+        color: #fffaf3;
+        box-shadow: 0 14px 28px rgba(31, 107, 76, 0.22);
+    }
+
+    .btn-action:hover,
+    .registration-btn:hover,
+    .volunteer-btn:hover,
+    .ok_btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 32px rgba(31, 107, 76, 0.26);
+    }
+
+    .btn-secondary,
+    .btn-cancel {
+        background: rgba(255, 255, 255, 0.58);
+        color: var(--ui-copy);
+        border: 1px solid rgba(24, 49, 39, 0.16);
+    }
+
+    .field-feedback {
+        display: block;
+        min-height: 1rem;
+        margin-top: 6px;
+        font-size: 0.78rem;
+        line-height: 1.3;
+        color: #bb4a16;
+    }
+
+    .field-feedback.error {
+        color: #c2410c;
+    }
+
+    .field-feedback.info {
+        color: #a16207;
+    }
+
+    input.input-error,
+    select.input-error,
+    textarea.input-error,
+    .password-wrapper input.input-error {
+        border-color: #d64545 !important;
+        background: rgba(214, 69, 69, 0.06);
+    }
+
+    input.input-success,
+    select.input-success,
+    textarea.input-success,
+    .password-wrapper input.input-success {
+        border-color: rgba(31, 107, 76, 0.4) !important;
+    }
+
+    .admin-list-item,
+    .student-list-item {
+        border: 1px solid rgba(24, 49, 39, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 10px 24px rgba(16, 28, 24, 0.08);
+        margin-bottom: 12px;
+    }
+
+    .admin-list-item:last-child,
+    .student-list-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .event-meta {
+        background: rgba(31, 107, 76, 0.04);
+        border: 1px solid rgba(31, 107, 76, 0.12);
+        border-radius: 18px;
+        padding: 16px;
+    }
+
+    .meta-item strong,
+    .event-details h2,
+    .event-description h3,
+    .event-actions h3,
+    .modal-content h2 {
+        color: var(--ui-copy);
+    }
+
+    .history-btn {
+        width: 100%;
+    }
+
+    @keyframes modalRise {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(0.985);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    body.dark-mode {
+        background:
+            radial-gradient(circle at top left, rgba(216, 145, 50, 0.1), transparent 30%),
+            linear-gradient(160deg, #161f1b 0%, #23211d 100%);
+        color: #f4efe8;
+    }
+
+    body.dark-mode .modal-content,
+    body.dark-mode .admin-list-item,
+    body.dark-mode .student-list-item {
+        background: rgba(33, 39, 36, 0.9);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    body.dark-mode .modal-header h2,
+    body.dark-mode .modal-content h2,
+    body.dark-mode .event-details h2,
+    body.dark-mode .event-description h3,
+    body.dark-mode .event-actions h3,
+    body.dark-mode .meta-item strong,
+    body.dark-mode .form-group label {
+        color: #fff7f0;
+    }
+
+    body.dark-mode .form-group input,
+    body.dark-mode .form-group select,
+    body.dark-mode .form-group textarea,
+    body.dark-mode .modal-content input,
+    body.dark-mode .modal-content select,
+    body.dark-mode .modal-content textarea {
+        background: rgba(12, 18, 15, 0.6);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #f4efe8;
+    }
+
+    body.dark-mode .field-feedback,
+    body.dark-mode .event-card-date,
+    body.dark-mode .modal-content p,
+    body.dark-mode .admin-list-item,
+    body.dark-mode .student-list-item {
+        color: #d8d2cb;
+    }
+
+    body.dark-mode .btn-action,
+    body.dark-mode .registration-btn,
+    body.dark-mode .volunteer-btn,
+    body.dark-mode .ok_btn {
+        background: linear-gradient(135deg, #e6c08a, #c9984d);
+        color: #183127;
+    }
+
+    body.dark-mode .btn-secondary,
+    body.dark-mode .btn-cancel {
+        background: rgba(255, 255, 255, 0.08);
+        color: #f4efe8;
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    @media (max-width: 600px) {
+        .modal-content {
+            border-radius: 22px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .form-buttons {
+            flex-direction: column;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
