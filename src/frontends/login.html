@@ -5,6 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventFinder - Login</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .forgot-password-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(93, 73, 81, 0.55);
+            z-index: 1200;
+        }
+
+        .forgot-password-modal.show {
+            display: flex;
+        }
+
+        .forgot-password-modal .modal-content {
+            width: min(440px, 96%);
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            border: 1px solid rgba(31, 107, 76, 0.12);
+            box-shadow: 0 28px 70px rgba(16, 28, 24, 0.22);
+            padding: 24px;
+            color: var(--text);
+        }
+
+        .forgot-password-modal .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(31, 107, 76, 0.12);
+        }
+
+        .forgot-password-modal .modal-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--text);
+        }
+
+        .forgot-password-modal .close {
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 180ms ease, transform 180ms ease;
+            user-select: none;
+        }
+
+        .forgot-password-modal .close:hover {
+            color: var(--accent);
+            transform: scale(1.08);
+        }
+
+        .forgot-password-modal p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .forgot-password-modal .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 18px;
+        }
+
+        .forgot-password-modal .btn {
+            width: auto;
+            padding: 10px 18px;
+        }
+
+        body.dark-mode .forgot-password-modal {
+            background: rgba(2, 8, 10, 0.72);
+        }
+
+        body.dark-mode .forgot-password-modal .modal-content {
+            background: rgba(35, 100, 110, 0.94);
+            border-color: rgba(255, 255, 255, 0.06);
+            color: #e9fbf4;
+        }
+
+        body.dark-mode .forgot-password-modal .modal-header {
+            border-bottom-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body.dark-mode .forgot-password-modal .modal-header h2,
+        body.dark-mode .forgot-password-modal p {
+            color: #f7fff9;
+        }
+
+        body.dark-mode .forgot-password-modal .close {
+            color: rgba(247, 255, 249, 0.72);
+        }
+
+        body.dark-mode .forgot-password-modal .close:hover {
+            color: #8fffe0;
+        }
+    </style>
 </head>
 <body>
     <!-- Theme Toggle Button -->
@@ -38,7 +138,7 @@
                 <label>
                     <input type="checkbox"> Remember me
                 </label>
-                <a href="#">Forgot password?</a>
+                <a href="#" id="forgotPasswordLink">Forgot password?</a>
             </div>
 
             <button type="submit" class="btn">Sign In</button>
@@ -47,6 +147,20 @@
             Don't have an account? <a href="signup.html">Sign up</a>
         </p>
     </div>
+
+    <div id="forgotPasswordModal" class="forgot-password-modal" role="dialog" aria-modal="true" aria-labelledby="forgotPasswordTitle" onclick="closeForgotPasswordModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="forgotPasswordTitle">Forgot Password</h2>
+                <span class="close" id="closeForgotPasswordModal">✕</span>
+            </div>
+            <p>Please contact the admin to reset your password.</p>
+            <div class="form-buttons" style="justify-content: flex-end; margin-top: 18px;">
+                <button type="button" class="btn" id="forgotPasswordOk">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/toggle_modes.js"></script>
     <script src="../js/valid1.js"></script>
     <script>
@@ -77,6 +191,30 @@
             errorDiv.style.marginBottom = '15px';
             errorDiv.style.textAlign = 'center';
         }
+
+        function openForgotPasswordModal() {
+            const modal = document.getElementById('forgotPasswordModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeForgotPasswordModal(event) {
+            if (event && event.target !== event.currentTarget) {
+                return;
+            }
+
+            const modal = document.getElementById('forgotPasswordModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            openForgotPasswordModal();
+        });
+
+        document.getElementById('closeForgotPasswordModal').addEventListener('click', closeForgotPasswordModal);
+        document.getElementById('forgotPasswordOk').addEventListener('click', closeForgotPasswordModal);
 
     </script>
 </body>
